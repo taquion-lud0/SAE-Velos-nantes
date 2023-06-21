@@ -11,6 +11,7 @@
         "lib/javafx.media.jar",
         "lib/javafx.swing.jar",
         "lib/javafx.web.jar",
-        "lib/javafx-swt.jar"
+        "lib/javafx-swt.jar",
+        "lib/mysql-connector-j-8.0.32.jar",
     ]
 }

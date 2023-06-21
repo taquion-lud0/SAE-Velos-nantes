@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 
 public class Requetes {
     private ArrayList<String> lesCompteurs = new ArrayList<String>(); 
+    private ArrayList<String> lesHeures = new ArrayList<String>();
     private final String URL = "jdbc:mysql://localhost:3306/velo_bdd";
     private final String USER = "root";
     private final String PASSWORD = "azerty123";
@@ -17,7 +18,7 @@ public class Requetes {
         this.lesCompteurs = lesCompteurs;
     }
 
-    public void addNomCompteur() {
+    public void addToPisteList() {
          try {
             Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
 
@@ -37,7 +38,8 @@ public class Requetes {
             e.printStackTrace();
         }
     }
-    public ArrayList<String> getNomCompteur() {
+
+    public ArrayList<String> getPisteList() {
         return this.lesCompteurs;
     }
 }

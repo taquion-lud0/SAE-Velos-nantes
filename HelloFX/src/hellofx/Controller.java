@@ -13,14 +13,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.util.ArrayList;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 
 public class Controller {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private Requetes requetes;
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "password";
 
@@ -38,26 +43,79 @@ public class Controller {
     ComboBox<String> heureArrivee;
     @FXML
     ComboBox<String> nomPiste;
+    
+    @FXML
+    ComboBox<String> typeQueryAffluence;
+    
     @FXML
     Button importDataButton;
 
-    public void initializeValueHeure(MouseEvent event) {
+    @FXML 
+    DatePicker dateDebut;
+    @FXML
+    DatePicker dateArrivee;
+    @FXML
+    ComboBox<String> heureRech;
+
+    public Controller() {
+        this.requetes = new Requetes(new ArrayList<String>());
+    }
+
+    public void initializeValueHeure(MouseEvent event) throws IOException {
         if (heureDebut.getItems().isEmpty() && heureArrivee.getItems().isEmpty()) {
-            heureDebut.getItems().addAll("00:00", "01:00", "02:00", "03:00", "04:00", "05:00","06:00","07:00","08:00","09:00","10:00","11:00",
-                                        "12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00", "20:00", "21:00", "22:00", "23:00");
+            heureDebut.getItems().addAll("h00", "h01", "h02", "h03", "h04", "h05","h06","h07","h08","h09","h10","h11",
+                                        "h12","h13","h14","h15","h16","h17","h18","h19", "h20", "h21", "h22", "h23");
 
-            heureArrivee.getItems().addAll("00:00", "01:00", "02:00", "03:00", "04:00", "05:00","06:00","07:00","08:00","09:00","10:00","11:00",
-                                        "12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00", "20:00", "21:00", "22:00", "23:00");
+            heureArrivee.getItems().addAll("h00", "h01", "h02", "h03", "h04", "h05","h06","h07","h08","h09","h10","h11",
+                                        "h12","h13","h14","h15","h16","h17","h18","h19", "h20", "h21", "h22", "h23");
+
+            heureRech.getItems().addAll("h00", "h01", "h02", "h03", "h04", "h05","h06","h07","h08","h09","h10","h11",
+                                        "h12","h13","h14","h15","h16","h17","h18","h19", "h20", "h21", "h22", "h23");
         }
     }
 
-    public void initializeValuePiste(MouseEvent event) {
+    public void initializeValueTypeQueryAffluence(MouseEvent event) throws IOException {
+        if (typeQueryAffluence.getItems().isEmpty()) {
+            typeQueryAffluence.getItems().addAll("Affluence d'une piste spécifique", "Piste ayant le plus d'affluence", "Piste ayant le moins d'Affluence");
+        }
+    }
+
+    public void initializeValuePiste(MouseEvent event) throws IOException {
         if (nomPiste.getItems().isEmpty()) {
-            nomPiste.getItems().addAll("Piste 1", "Piste 2", "Piste 3", "Piste 4", "Piste 5", "Piste 6", "Piste 7", "Piste 8", "Piste 9", "Piste 10");
+            requetes.addToPisteList();
+            ArrayList<String> lesCompteurs = requetes.getPisteList();
+            for(String piste : lesCompteurs) {
+                this.nomPiste.getItems().add(piste);
+            }
         }
     }
 
-        
+    @FXML 
+    //getting the value of the selected item in the combobox
+    public String getNomPiste(ActionEvent event) {
+        String nomPiste =  this.nomPiste.getSelectionModel().getSelectedItem();
+        return nomPiste;
+    }
+
+    @FXML
+    public Date getDateDebut(ActionEvent event) {
+        Date dateDeb = Date.valueOf(dateDebut.getValue());
+        return dateDeb;
+    }
+
+    @FXML
+    public Date getDateArrivee(ActionEvent event) {
+        Date dateArr = Date.valueOf(dateArrivee.getValue());
+        return dateArr;
+    }
+
+
+    @FXML
+    public String getHeureArrivee(ActionEvent event) {
+        String heureArr =  heureArrivee.getSelectionModel().getSelectedItem();
+        return heureArr;
+    }
+
     @FXML
     public String getHeureDebut(ActionEvent event) {
         String heureDeb =  heureDebut.getSelectionModel().getSelectedItem();

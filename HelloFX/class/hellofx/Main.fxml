@@ -53,7 +53,7 @@
                   <Image url="@../../images/iconMap.png" />
                </image>
             </ImageView>
-            <Button mnemonicParsing="false" opacity="0.0" prefHeight="102.0" prefWidth="84.0" />
+            <Button fx:id="downloadDataButton" mnemonicParsing="false" opacity="0.0" prefHeight="102.0" prefWidth="84.0" />
          </children>
       </StackPane>
       <Label layoutX="465.0" layoutY="123.0" text="Télécharger la carte" textFill="#fffefe">
@@ -68,7 +68,7 @@
                   <Image url="@../../images/import.png" />
                </image>
             </ImageView>
-            <Button mnemonicParsing="false" opacity="0.0" prefHeight="102.0" prefWidth="84.0" />
+            <Button fx:id="importDataButton" mnemonicParsing="false" opacity="0.0" prefHeight="102.0" prefWidth="84.0" />
          </children>
       </StackPane>
       <Label layoutX="449.0" layoutY="225.0" text="Importer des données (.csv)" textFill="#fffefe">
