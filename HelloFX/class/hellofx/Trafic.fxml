@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #397fc2;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hellofx.Controller">
+   <children>
+      <Button layoutX="19.0" layoutY="43.0" mnemonicParsing="false" onAction="#switchToMain" prefHeight="23.0" prefWidth="110.0" text="Page d'accueil">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Button>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="160.0" layoutY="29.0" prefHeight="51.0" prefWidth="320.0" text="Trafic journalier" textAlignment="CENTER" textFill="WHITE" underline="true" wrapText="true">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="13.0" layoutY="90.0" prefHeight="303.0" prefWidth="574.0" style="-fx-background-color: #1b3280;">
+         <children>
+            <Button layoutX="148.0" layoutY="229.0" mnemonicParsing="false" onAction="#switchToResTrafic" prefHeight="23.0" prefWidth="279.0" text="Trafic Journalier avec les paramètres sélectionnés" textAlignment="CENTER">
+               <font>
+                  <Font size="9.0" />
+               </font></Button>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="34.0" prefHeight="14.0" prefWidth="200.0" text="Veuillez choisir une date (requis)" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="269.0" layoutY="34.0" prefHeight="14.0" prefWidth="216.0" text="Sélectionnez l'heure rechercher (requis)" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
