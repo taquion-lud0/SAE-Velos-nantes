@@ -38,6 +38,8 @@ public class Controller {
     ComboBox<String> heureArrivee;
     @FXML
     ComboBox<String> nomPiste;
+    @FXML
+    Button importDataButton;
 
     public void initializeValueHeure(MouseEvent event) {
         if (heureDebut.getItems().isEmpty() && heureArrivee.getItems().isEmpty()) {

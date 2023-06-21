@@ -4,24 +4,29 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.sql.ResultSet;
 
 public class Requetes {
-    public static void main(String[] args) {
-        String url = "jdbc:mysql://localhost:3306/velo_bdd";
-        String user = "root";
-        String password = "azerty123";
+    private ArrayList<String> lesCompteurs = new ArrayList<String>(); 
+    private final String URL = "jdbc:mysql://localhost:3306/velo_bdd";
+    private final String USER = "root";
+    private final String PASSWORD = "azerty123";
+    
+    public Requetes (ArrayList<String> lesCompteurs) {
+        this.lesCompteurs = lesCompteurs;
+    }
 
-        try {
-            Connection connection = DriverManager.getConnection(url, user, password);
+    public void addNomCompteur() {
+         try {
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
 
-            String query = "SELECT idCompteur FROM Compteur WHERE leQuartier IS NULL;";
+            String query = "SELECT DISTINCT CONCAT(nomCompteur, sens) AS resultat FROM Compteur ORDER BY resultat;";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                int idCompteur = resultSet.getInt("idCompteur");
-                System.out.println("idCompteur : " + idCompteur);
+                this.lesCompteurs.add(resultSet.getString("resultat"));
             }
 
             resultSet.close();
@@ -31,5 +36,8 @@ public class Requetes {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public ArrayList<String> getNomCompteur() {
+        return this.lesCompteurs;
     }
 }
