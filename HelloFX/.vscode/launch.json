@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Requetes",
+            "request": "launch",
+            "mainClass": "hellofx.Requetes",
+            "projectName": "HelloFX_70ccd8c8"
+        },
+        {
+            "type": "java",
             "name": "Launch App",
             "request": "launch",
             "mainClass": "hellofx.Main",

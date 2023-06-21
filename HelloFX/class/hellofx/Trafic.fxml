@@ -37,6 +37,7 @@
             </Label>
             <DatePicker layoutX="42.0" layoutY="65.0" />
             <ComboBox fx:id="heureRech" layoutX="255.0" layoutY="65.0" prefWidth="150.0" promptText="Heure recherchée" />
+            <ComboBox fx:id="specSelec" layoutX="410.0" layoutY="65.0" prefWidth="150.0" promptText="Spécificités de la sélection" />
          </children>
       </AnchorPane>
    </children>

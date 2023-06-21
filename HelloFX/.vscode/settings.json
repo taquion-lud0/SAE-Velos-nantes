@@ -13,5 +13,6 @@
         "lib/javafx.web.jar",
         "lib/javafx-swt.jar",
         "lib/mysql-connector-j-8.0.32.jar",
+        "lib/jfreechart-1.5.4.jar",
     ]
 }

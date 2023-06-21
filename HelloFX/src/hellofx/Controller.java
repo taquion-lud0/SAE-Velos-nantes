@@ -43,19 +43,21 @@ public class Controller {
     ComboBox<String> heureArrivee;
     @FXML
     ComboBox<String> nomPiste;
-    
     @FXML
     ComboBox<String> typeQueryAffluence;
-    
     @FXML
     Button importDataButton;
-
     @FXML 
     DatePicker dateDebut;
     @FXML
     DatePicker dateArrivee;
     @FXML
     ComboBox<String> heureRech;
+    @FXML
+    ComboBox<String> specSelec;
+    @FXML 
+    DatePicker dateSelec;
+    
 
     public Controller() {
         this.requetes = new Requetes(new ArrayList<String>());
@@ -87,6 +89,12 @@ public class Controller {
             for(String piste : lesCompteurs) {
                 this.nomPiste.getItems().add(piste);
             }
+        }
+    }
+
+    public void initializeSpecSelec (MouseEvent event) throws IOException {
+        if (specSelec.getItems().isEmpty()) {
+            specSelect.getItems().addAll("Piste", "Compteur", "Capteur");
         }
     }
 
