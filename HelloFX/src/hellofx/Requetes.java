@@ -14,9 +14,9 @@ import java.time.temporal.ChronoUnit;
 public class Requetes {
     private ArrayList<String> lesCompteurs = new ArrayList<String>(); 
     private ArrayList<String> lesHeures = new ArrayList<String>();
-    private static final String URL = "jdbc:mysql://localhost:3306/velo_bdd";
-    private static final String USER = "root";
-    private static final String PASSWORD = "azerty123";
+    static final String URL = "jdbc:mysql://localhost:3306/velo_bdd";
+    static final String USER = "root";
+    static final String PASSWORD = "azerty123";
 
     public static void main(String[] args) {
         //Exemple de requete
@@ -60,6 +60,16 @@ public class Requetes {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    //getteur de USER
+    static String getUSER() {
+        return USER;
+    }
+
+    //getteur de PASSWORD
+    static String getPASSWORD() {
+        return PASSWORD;
     }
 
     public ArrayList<String> getPisteList() {
