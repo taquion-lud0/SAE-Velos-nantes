@@ -5,6 +5,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #397fc2;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hellofx.Controller">
@@ -19,7 +20,7 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
-      <AnchorPane layoutX="13.0" layoutY="90.0" prefHeight="303.0" prefWidth="574.0" style="-fx-background-color: #1b3280;">
+      <AnchorPane layoutX="13.0" layoutY="84.0" prefHeight="303.0" prefWidth="574.0" style="-fx-background-color: #1b3280;">
          <children>
             <Button layoutX="148.0" layoutY="229.0" mnemonicParsing="false" onAction="#switchToResTrafic" prefHeight="23.0" prefWidth="279.0" text="Trafic Journalier avec les paramètres sélectionnés" textAlignment="CENTER">
                <font>
@@ -36,8 +37,21 @@
                </font>
             </Label>
             <DatePicker layoutX="42.0" layoutY="65.0" />
-            <ComboBox fx:id="heureRech" layoutX="255.0" layoutY="65.0" prefWidth="150.0" promptText="Heure recherchée" />
-            <ComboBox fx:id="specSelec" layoutX="410.0" layoutY="65.0" prefWidth="150.0" promptText="Spécificités de la sélection" />
+            <ComboBox fx:id="heureRech" layoutX="255.0" layoutY="65.0" onMouseEntered="#initializeValueHeureRech" prefWidth="150.0" promptText="Heure recherchée" />
+            <Label layoutX="444.0" layoutY="105.0" text="A titre indicatif" textAlignment="CENTER" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="432.0" layoutY="213.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="87.0" prefWidth="130.0" style="-fx-background-color: white;">
+         <children>
+            <VBox layoutX="-9.0" prefHeight="70.0" prefWidth="130.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="jourFérie" alignment="CENTER" prefHeight="18.0" prefWidth="193.0" text="Jour Férié" />
+                  <Label fx:id="jourFérie1" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="18.0" prefWidth="193.0" text="Jour de vacances" />
+                  <Label fx:id="jourSemaine" alignment="CENTER" prefHeight="17.0" prefWidth="153.0" text="Jour de semaine" />
+                  <Label fx:id="jourWeekend" alignment="CENTER" prefHeight="17.0" prefWidth="153.0" text="Jour de week-end" />
+                  <Label fx:id="saison" alignment="CENTER" prefHeight="17.0" prefWidth="153.0" text="Saison : null" />
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </children>

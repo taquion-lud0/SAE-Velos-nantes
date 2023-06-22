@@ -7,6 +7,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 
+import java.io.File;
+import java.io.IOException;
+
+
 public class Main extends Application {
 
     @Override
@@ -15,9 +19,10 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         primaryStage.getIcons().add(new Image("file:images/icon.jpeg"));
         primaryStage.setResizable(false);
-        primaryStage.setTitle("Page de Connexion");
+        primaryStage.setTitle("Page d'Accueil");
         primaryStage.setScene(scene);
         primaryStage.show();
+
    }
 
     public static void main(String[] args) {

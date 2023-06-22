@@ -6,20 +6,32 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
+
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+
+import java.time.LocalDate;
+import java.io.File;
+
+//
 
 public class Controller {
     private Stage stage;
@@ -28,6 +40,7 @@ public class Controller {
     private Requetes requetes;
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "password";
+    private FileChooser fileChooser;
 
     @FXML
     TextField nameLoginTextField;
@@ -57,20 +70,39 @@ public class Controller {
     ComboBox<String> specSelec;
     @FXML 
     DatePicker dateSelec;
+    @FXML
+    ComboBox<String> pisteDepart;
+    @FXML
+    ComboBox<String> pisteArrivee;
+    @FXML
+    Label jourFérie;
+    @FXML
+    Label jourVacances;
+    @FXML
+    Label jourSemaine;
+    @FXML
+    Label jourWeekend;
+    @FXML
+    Label saison;
     
 
     public Controller() {
         this.requetes = new Requetes(new ArrayList<String>());
+        this.fileChooser = new FileChooser();
     }
 
     public void initializeValueHeure(MouseEvent event) throws IOException {
-        if (heureDebut.getItems().isEmpty() && heureArrivee.getItems().isEmpty()) {
+        if (heureDebut.getItems().isEmpty()) {
             heureDebut.getItems().addAll("h00", "h01", "h02", "h03", "h04", "h05","h06","h07","h08","h09","h10","h11",
                                         "h12","h13","h14","h15","h16","h17","h18","h19", "h20", "h21", "h22", "h23");
-
+        } else if (heureArrivee.getItems().isEmpty()) {
             heureArrivee.getItems().addAll("h00", "h01", "h02", "h03", "h04", "h05","h06","h07","h08","h09","h10","h11",
                                         "h12","h13","h14","h15","h16","h17","h18","h19", "h20", "h21", "h22", "h23");
+        }
+    }
 
+    public void initializeValueHeureRech(MouseEvent event) throws IOException {
+        if (heureRech.getItems().isEmpty()) {
             heureRech.getItems().addAll("h00", "h01", "h02", "h03", "h04", "h05","h06","h07","h08","h09","h10","h11",
                                         "h12","h13","h14","h15","h16","h17","h18","h19", "h20", "h21", "h22", "h23");
         }
@@ -89,12 +121,22 @@ public class Controller {
             for(String piste : lesCompteurs) {
                 this.nomPiste.getItems().add(piste);
             }
-        }
+        } 
     }
 
-    public void initializeSpecSelec (MouseEvent event) throws IOException {
-        if (specSelec.getItems().isEmpty()) {
-            specSelect.getItems().addAll("Piste", "Compteur", "Capteur");
+    public void initializeValuePisteDepArr(MouseEvent event) throws IOException {
+        if (pisteDepart.getItems().isEmpty()) {
+            requetes.addToPisteList();
+            ArrayList<String> lesCompteurs = requetes.getPisteList();
+            for(String piste : lesCompteurs) {
+                this.pisteDepart.getItems().add(piste);
+            }
+        } else if (pisteArrivee.getItems().isEmpty()) {
+            requetes.addToPisteList();
+            ArrayList<String> lesCompteurs = requetes.getPisteList();
+            for(String piste : lesCompteurs) {
+                this.pisteArrivee.getItems().add(piste);
+            }
         }
     }
 
@@ -129,35 +171,7 @@ public class Controller {
         String heureDeb =  heureDebut.getSelectionModel().getSelectedItem();
         return heureDeb;
     }
-    /* 
-    public void downloadData(){
-        String fileURL = "https://example.com/file-to-download.txt"; // URL du fichier à télécharger
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choisir un emplacement de téléchargement");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Fichiers texte (*.txt)", "*.txt");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        File file = fileChooser.showSaveDialog(this.stage);
-        if (file != null) {
-            try {
-                downloadFile(fileURL, file);
-                System.out.println("Le fichier a été téléchargé avec succès !");
-            } catch (IOException e) {
-                System.out.println("Une erreur s'est produite lors du téléchargement du fichier : " + e.getMessage());
-            }
-        }
-    }
-
-    private void downloadFile(String fileURL, File destinationFile) throws IOException {
-        URL url = new URL(fileURL);
-        ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-        FileOutputStream fos = new FileOutputStream(destinationFile);
-        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-        fos.close();
-        rbc.close();
-    }
-    */
+    
 
     public void Connexion(ActionEvent event) throws IOException {
         String username = nameLoginTextField.getText();
@@ -276,5 +290,45 @@ public class Controller {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show(); 
+    }
+
+    public void downloadMap(MouseEvent event) throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir l'emplacement de téléchargement");
+
+        // Filtre de fichier pour n'afficher que les fichiers d'images
+        FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Images", "*.jpg", "*.jpeg", "*.png");
+        fileChooser.getExtensionFilters().add(imageFilter);
+
+        String userHomeDirectory = System.getProperty("user.home");
+        String downloadsDirectoryPath = userHomeDirectory + File.separator + "Downloads";
+        File downloadsDirectory = new File(downloadsDirectoryPath);
+        fileChooser.setInitialDirectory(downloadsDirectory);
+
+        // Affichage de la boîte de dialogue et récupération du fichier choisi
+        File file = fileChooser.showSaveDialog(new Stage());
+        String imagePath = "images/map.png"; //chemin de l'image à télécharger
+        File imageFile = new File(imagePath);
+        Files.copy(imageFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    } 
+
+    public void downloadData(MouseEvent event) throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir l'emplacement de téléchargement");
+
+        // Filtre de fichier pour n'afficher que les fichiers d'images
+        FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Fichiers CSV", "*.csv");
+        fileChooser.getExtensionFilters().add(imageFilter);
+
+        String userHomeDirectory = System.getProperty("user.home");
+        String downloadsDirectoryPath = userHomeDirectory + File.separator + "Downloads";
+        File downloadsDirectory = new File(downloadsDirectoryPath);
+        fileChooser.setInitialDirectory(downloadsDirectory);
+
+        // Affichage de la boîte de dialogue et récupération du fichier choisi
+        File file = fileChooser.showSaveDialog(new Stage());
+        String dataPath = "data/data.csv"; //chemin du fichier à télécharger
+        File dataFile = new File(dataPath);
+        Files.copy(dataFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 }
