@@ -414,7 +414,7 @@ public class Controller {
             }
         }
     }
-
+    /* 
     public void afficherPistesEnv(MouseEvent event) throws IOException {
         try {
             String pisteA = "Vn vers Suce Sur Erdre";
@@ -426,17 +426,19 @@ public class Controller {
             XYChart.Series<String, Number> series = new XYChart.Series<>();
 
             while (rs.next()) {
+                // Récupérer les données (A MODIFIER/COMPLETER)
                 String piste = rs.getString("piste");
-                int environ = rs.getInt("environ");
 
                 // Ajouter les données à la série
+                
                 series.getData().add(new XYChart.Data<>(piste, environ));
                 barChart.getData().add(series);
                 anchorPaneResPistEnv.getChildren().add(barChart);
+                
             }
-
         } catch (NullPointerException e) {
             errorPiste.setText("Aucune piste sélectionnée.");
         }
     }
+    */
 }
