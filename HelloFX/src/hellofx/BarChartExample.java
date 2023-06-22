@@ -3,17 +3,11 @@ package hellofx;
 import java.sql.ResultSet;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import javafx.scene.chart.Chart;
-
 public class BarChartExample {
-    public static void main(String[] args) {
-
-    }
 
     public static JFreeChart trafficJournalierGraph(ResultSet set){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();

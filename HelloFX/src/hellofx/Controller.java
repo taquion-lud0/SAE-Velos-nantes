@@ -32,7 +32,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 
 import java.io.File;
-//
 
 public class Controller {
     private Stage stage;

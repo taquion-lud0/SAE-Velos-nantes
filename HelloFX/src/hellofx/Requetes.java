@@ -10,43 +10,13 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-import org.jfree.chart.ChartFrame;
-import org.jfree.chart.JFreeChart;
-
 public class Requetes {
     private ArrayList<String> lesCompteurs = new ArrayList<String>(); 
-    private ArrayList<String> lesHeures = new ArrayList<String>();
     static final String URL = "jdbc:mysql://localhost:3306/velo_bdd";
     static final String USER = "root";
     static final String PASSWORD = "123456";
 
-    public static void main(String[] args) {
-        //Exemple de requete
-        String pisteD = "Vn751A St Leger les Vignes";
-        String pisteA = "50 Otages Sud";
-        String dateD = "2022-01-01";
-        String dateA = "2022-01-03";
 
-        String hD = "h16";
-        String hA = "h17";
-        int affluence = 0;
-
-        
-        ResultSet res = affluenceAvecH(dateD, dateA, pisteA, 2);
-        JFreeChart chart = BarChartExample.affluenceAvecHGraph(res);
-        //affiche le graphique
-        ChartFrame frame = new ChartFrame("Affluence", chart);
-        frame.pack();
-        frame.setVisible(true);
-
-        
-        //bce.trafficJournalierGraph(res);
-        //bce.pisteEnvironGraph(res);
-
-        //affluence = affluence(date, hD, hA, pisteD, pisteA);
-        //String test = itineraire(pisteD, pisteA);
-        //System.out.println(test);
-    }
     
     public Requetes () {
         //this.lesCompteurs = lesCompteurs;
@@ -233,13 +203,6 @@ public class Requetes {
             String tmp = dateD;
             dateD = dateF;
             dateF = tmp;
-        }
-
-        //nb de jours entre les 2 dates
-        int nbJours = (int) ChronoUnit.DAYS.between(LocalDate.parse(dateD), LocalDate.parse(dateF)) + 1;
-        String affluenceRes = "ASC";
-        if(affluence == 1){
-            affluenceRes = "DESC";
         }
         if(affluence == 0){
             try {
