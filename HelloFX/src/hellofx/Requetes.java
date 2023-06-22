@@ -31,7 +31,7 @@ public class Requetes {
     // A modifier en fonction de la BDD
     static final String URL = "jdbc:mysql://localhost:3306/velo_bdd";
     static final String USER = "root";
-    static final String PASSWORD = "123456";
+    static final String PASSWORD = "azerty123";
 
 
     // Constructeur (vide)
