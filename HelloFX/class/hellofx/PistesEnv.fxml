@@ -20,7 +20,7 @@
       </Label>
       <AnchorPane layoutX="43.0" layoutY="90.0" prefHeight="266.0" prefWidth="515.0" style="-fx-background-color: #1b3280;">
          <children>
-            <Button fx:id="pisteEnvButton" layoutX="111.0" layoutY="169.0" mnemonicParsing="false" onAction="#afficherPistesEnv" onMouseClicked="#afficherPistesEnv" prefHeight="24.0" prefWidth="293.0" text="Rechercher les pistes environnantes" textAlignment="CENTER" />
+            <Button fx:id="pisteEnvButton" layoutX="111.0" layoutY="169.0" mnemonicParsing="false" onAction="#afficherPistesEnv" prefHeight="24.0" prefWidth="293.0" text="Rechercher les pistes environnantes" textAlignment="CENTER" />
             <ComboBox fx:id="nomPiste" layoutX="98.0" layoutY="63.0" onMouseEntered="#initializeValuePiste" prefHeight="25.0" prefWidth="320.0" promptText="Sélection de la piste (Exemple : 50 Otages vers Sud)" />
             <Label fx:id="errorPiste" alignment="CENTER" contentDisplay="CENTER" layoutY="128.0" prefHeight="17.0" prefWidth="517.0" text="..." textFill="RED" />
          </children>
