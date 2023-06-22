@@ -9,6 +9,7 @@
 
 
 <h2 style="font-size: 2rem; color: #ff5252; font-weight: bold; margin: 1rem 0;">/!\ ATTENTION /!\ </h2>
+
 ### L'application ne fonctionne que si vous avez en bdd mysql les données des compteurs de velos de la ville de Nantes. Pour cela, il faut télécharger le fichier csv sur le site de la ville de Nantes et l'importer dans une base de données mysql. La base de donnée doit s'appeler "velo_bdd" et doit avoir pour mot de passe "123456" et pour utilisateur "root". Si vous souhaitez changer ces paramètres, il faut modifier le code source de l'application.
 
 ## Fonctionnalités
