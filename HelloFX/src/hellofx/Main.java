@@ -18,6 +18,12 @@ import javafx.scene.image.Image;
  */
 public class Main extends Application {
 
+    /**
+     * Constructeur de la classe Main (non utilisé)
+     */
+    public Main() {
+    }
+
     @Override
     /**
      * Méthode start de l'application JavaFX
@@ -33,6 +39,10 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
    }
+   /**
+    * Méthode main de l'application JavaFX, lance l'application
+    * @param args - Arguments de l'application (non utilisés)
+    */
     public static void main(String[] args) {
         launch(args);
     }

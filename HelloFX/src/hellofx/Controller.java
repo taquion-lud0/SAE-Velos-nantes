@@ -51,7 +51,9 @@ import org.jfree.chart.ChartFrame;
 
 
 
-
+/**
+ * Classe Controller, permet de gérer les évènements de l'interface graphique
+ */
 public class Controller {
 
     //déclaration des variables
@@ -130,7 +132,9 @@ public class Controller {
     Label error;
 
     
-    //constructeur
+    /**
+     * Constructeur de la classe Controller
+     */
     public Controller() {
         this.requetes = new Requetes();
         this.fileChooser = new FileChooser();
@@ -153,8 +157,8 @@ public class Controller {
 
     /**
      * Méthode pour initialiser la liste des heures dans "trafic"
-     * @param event
-     * @throws IOException
+     * @param event : évènement qui initialise la liste des heures
+     * @throws IOException : exception si erreur
      */
     public void initializeValueHeureRech(MouseEvent event) throws IOException {
         if (heureRech.getItems().isEmpty()) {

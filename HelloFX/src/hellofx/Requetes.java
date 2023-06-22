@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Classe Requetes pour se connecter à la base de données et faire des requêtes
+ */
 public class Requetes {
     // Liste des compteurs
     private ArrayList<String> lesCompteurs = new ArrayList<String>(); 
@@ -34,7 +37,9 @@ public class Requetes {
     static final String PASSWORD = "azerty123";
 
 
-    // Constructeur (vide)
+    /**
+     * Constructeur de la classe Requetes (vide)
+     */
     public Requetes () {
     }
 
@@ -80,7 +85,7 @@ public class Requetes {
 
     /**
      * Méthode pour obtenir les pistes de la base de données
-     * @return ArrayList<String> - liste des pistes
+     * @return ArrayList - liste des pistes
      */
     public ArrayList<String> getPisteList() {
         return this.lesCompteurs;
