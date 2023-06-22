@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
 
 public class Requetes {
     private ArrayList<String> lesCompteurs = new ArrayList<String>(); 
@@ -21,21 +23,22 @@ public class Requetes {
     public static void main(String[] args) {
         //Exemple de requete
         String pisteD = "Vn751A St Leger les Vignes";
-        String pisteA = "VN Suce sur Erdre";
-        String date = "2022-01-01";
+        String pisteA = "50 Otages Sud";
+        String dateD = "2022-01-01";
+        String dateA = "2022-01-03";
+
         String hD = "h16";
         String hA = "h17";
         int affluence = 0;
 
-        /*
-        ResultSet res = affluenceAvecH(date, date, pisteA, 0);
+        
+        ResultSet res = affluenceAvecH(dateD, dateA, pisteA, 2);
         JFreeChart chart = BarChartExample.affluenceAvecHGraph(res);
         //affiche le graphique
         ChartFrame frame = new ChartFrame("Affluence", chart);
         frame.pack();
-        frame.setVisible(true);*/
-        String test = itineraire(pisteD, pisteA);
-        System.out.println(test);
+        frame.setVisible(true);
+
         
         //bce.trafficJournalierGraph(res);
         //bce.pisteEnvironGraph(res);
@@ -164,8 +167,9 @@ public class Requetes {
         String sens = pistSplit[1];
 
 
-        //nb de jours entre les 2 dates
-        int nbJours = (int) ChronoUnit.DAYS.between(LocalDate.parse(dateD), LocalDate.parse(dateF));
+        //nb de jours entre les 2 dates (dateF - dateD)
+        int nbJours = (int) ChronoUnit.DAYS.between(LocalDate.parse(dateD), LocalDate.parse(dateF)) +1;
+        System.out.println(nbJours);
         String affluenceRes = "ASC";
         if(affluence == 1){
             affluenceRes = "DESC";
@@ -174,7 +178,7 @@ public class Requetes {
         if(affluence == 0){
             try {
                 Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-                String query = "SELECT nomCompteur, sens, dateComptage, SUM(h00 + h01 + h02 + h03 + h04 + h05 + h06 + h07 + h08 + h09 + h10 + h11 + h12 + h13 + h14 + h15 + h16 + h17 + h18 + h19 + h20 + h21 + h22 + h23) AS nbVelos FROM Comptage, Compteur WHERE Comptage.leCompteur = Compteur.idCompteur AND dateComptage BETWEEN '"+dateD+"' AND '"+dateF+"' AND nomCompteur = '"+nomPiste+"' GROUP BY nomCompteur, sens, dateComptage ORDER BY nbVelos DESC  LIMIT " + nbJours +";";
+                String query = "SELECT nomCompteur, sens, dateComptage, SUM(h00 + h01 + h02 + h03 + h04 + h05 + h06 + h07 + h08 + h09 + h10 + h11 + h12 + h13 + h14 + h15 + h16 + h17 + h18 + h19 + h20 + h21 + h22 + h23) AS nbVelos FROM Comptage, Compteur WHERE Comptage.leCompteur = Compteur.idCompteur AND dateComptage BETWEEN '"+dateD+"' AND '"+dateF+"' AND nomCompteur = '"+nomPiste+"' AND sens = '"+sens+"' GROUP BY nomCompteur, sens, dateComptage ORDER BY dateComptage ASC  LIMIT " + nbJours +";";
                 System.out.println(query);
                 Statement statement = connection.createStatement();
                 res = statement.executeQuery(query);
@@ -185,7 +189,7 @@ public class Requetes {
         else{
             try{
                 Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-                String query = "SELECT nomCompteur, sens, dateComptage, SUM(h00 + h01 + h02 + h03 + h04 + h05 + h06 + h07 + h08 + h09 + h10 + h11 + h12 + h13 + h14 + h15 + h16 + h17 + h18 + h19 + h20 + h21 + h22 + h23) AS nbVelos FROM Comptage, Compteur WHERE Comptage.leCompteur = Compteur.idCompteur AND dateComptage BETWEEN '"+dateD+"' AND '"+ dateF +"' GROUP BY nomCompteur, sens, h00, h01, h02, h03, h04, h05, h06, h07, h08, h09, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, h23 ORDER BY nbVelos "+affluenceRes+" LIMIT 1;";
+                String query = "SELECT nomCompteur, sens, dateComptage, SUM(h00 + h01 + h02 + h03 + h04 + h05 + h06 + h07 + h08 + h09 + h10 + h11 + h12 + h13 + h14 + h15 + h16 + h17 + h18 + h19 + h20 + h21 + h22 + h23) AS nbVelos FROM Comptage, Compteur WHERE Comptage.leCompteur = Compteur.idCompteur AND dateComptage BETWEEN '"+dateD+"' AND '"+ dateF +"' GROUP BY nomCompteur, sens, dateComptage ORDER BY nbVelos "+affluenceRes+" LIMIT 1;";
                 Statement statement = connection.createStatement();
                 res = statement.executeQuery(query);
             }
@@ -206,7 +210,7 @@ public class Requetes {
 
 
         //nb de jours entre les 2 dates
-        int nbJours = (int) ChronoUnit.DAYS.between(LocalDate.parse(dateD), LocalDate.parse(dateF));
+        int nbJours = (int) ChronoUnit.DAYS.between(LocalDate.parse(dateD), LocalDate.parse(dateF)) + 1;
         String affluenceRes = "ASC";
         if(affluence == 1){
             affluenceRes = "DESC";
@@ -214,7 +218,7 @@ public class Requetes {
         if(affluence == 0){
             try {
                 Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-                String query = "SELECT nomCompteur, sens, h00 , h01 , h02 , h03 , h04 , h05 , h06 , h07 , h08 , h09 , h10 , h11 , h12 , h13 , h14 , h15 , h16 , h17 , h18 , h19  ,h20 , h21 , h22 , h23 FROM Comptage, Compteur WHERE Comptage.leCompteur = Compteur.idCompteur AND dateComptage BETWEEN '"+dateD+"' AND '"+dateF+"' AND nomCompteur = '"+nomPiste+"' GROUP BY nomCompteur, sens, h00 , h01 , h02 , h03 , h04 , h05 , h06 , h07 , h08 , h09 , h10 , h11 , h12 , h13 , h14 , h15 , h16 , h17 , h18 , h19  ,h20 , h21 , h22 , h23  LIMIT 1;";
+                String query = "SELECT nomCompteur, sens, h00 , h01 , h02 , h03 , h04 , h05 , h06 , h07 , h08 , h09 , h10 , h11 , h12 , h13 , h14 , h15 , h16 , h17 , h18 , h19  ,h20 , h21 , h22 , h23 FROM Comptage, Compteur WHERE Comptage.leCompteur = Compteur.idCompteur AND dateComptage BETWEEN '"+dateD+"' AND '"+dateD+"' AND nomCompteur = '"+nomPiste+"' AND sens = '"+sens+"' GROUP BY nomCompteur, sens, h00 , h01 , h02 , h03 , h04 , h05 , h06 , h07 , h08 , h09 , h10 , h11 , h12 , h13 , h14 , h15 , h16 , h17 , h18 , h19  ,h20 , h21 , h22 , h23  LIMIT 1;";
                 System.out.println(query);
                 Statement statement = connection.createStatement();
                 res = statement.executeQuery(query);
@@ -225,7 +229,7 @@ public class Requetes {
         else{
             try{
                     Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-                    String query = "SELECT nomCompteur, sens,  h00, h01, h02, h03, h04, h05, h06, h07, h08, h09, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, h23 FROM Comptage, Compteur WHERE Comptage.leCompteur = Compteur.idCompteur AND dateComptage BETWEEN '"+dateD+"' AND '"+ dateF +"' GROUP BY nomCompteur, sens, h00, h01, h02, h03, h04, h05, h06, h07, h08, h09, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, h23  LIMIT 1;";
+                    String query = "SELECT nomCompteur, sens,  h00, h01, h02, h03, h04, h05, h06, h07, h08, h09, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, h23 FROM Comptage, Compteur WHERE Comptage.leCompteur = Compteur.idCompteur AND dateComptage BETWEEN '"+dateD+"' AND '"+ dateD +"' GROUP BY nomCompteur, sens, h00, h01, h02, h03, h04, h05, h06, h07, h08, h09, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, h23  LIMIT 1;";
                     Statement statement = connection.createStatement();
                     res = statement.executeQuery(query);
                 }
