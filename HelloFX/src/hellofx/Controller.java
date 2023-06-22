@@ -2,6 +2,10 @@ package hellofx;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -15,14 +19,20 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
 
-
+import java.sql.ResultSet;
+ 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.naming.spi.DirStateFactory.Result;
+
+import com.mysql.cj.protocol.Resultset;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -57,6 +67,10 @@ public class Controller {
     @FXML
     ComboBox<String> typeQueryAffluence;
     @FXML
+    Button pisteEnvButton;
+    @FXML 
+    Label errorPiste;
+    @FXML
     Button importDataButton;
     @FXML 
     DatePicker dateDebut;
@@ -87,8 +101,10 @@ public class Controller {
     AnchorPane anchorPaneDragDrop;
     @FXML
     Button deleteDataButton;
-    
+    @FXML
+    AnchorPane anchorPaneResPistEnv;
 
+    
     public Controller() {
         this.requetes = new Requetes(new ArrayList<String>());
         this.fileChooser = new FileChooser();
@@ -143,38 +159,54 @@ public class Controller {
         }
     }
 
-    @FXML 
-    //getting the value of the selected item in the combobox
-    public String getNomPiste(ActionEvent event) {
-        String nomPiste =  this.nomPiste.getSelectionModel().getSelectedItem();
+    public String getNomPiste() {
+        String nomPiste = this.nomPiste.getSelectionModel().getSelectedItem();
         return nomPiste;
     }
 
-    @FXML
-    public Date getDateDebut(ActionEvent event) {
+    
+    public Date getDateDebut() {
         Date dateDeb = Date.valueOf(dateDebut.getValue());
         return dateDeb;
     }
 
-    @FXML
-    public Date getDateArrivee(ActionEvent event) {
+    public Date getDateArrivee() {
         Date dateArr = Date.valueOf(dateArrivee.getValue());
         return dateArr;
     }
 
-
-    @FXML
-    public String getHeureArrivee(ActionEvent event) {
+    public String getHeureArrivee() {
         String heureArr =  heureArrivee.getSelectionModel().getSelectedItem();
         return heureArr;
     }
 
-    @FXML
-    public String getHeureDebut(ActionEvent event) {
+    public String getHeureDebut() {
         String heureDeb =  heureDebut.getSelectionModel().getSelectedItem();
         return heureDeb;
     }
-    
+
+    public int getTypeQueryAffluence() {
+        int typeQueryInt = 1;
+        String typeQuery =  typeQueryAffluence.getSelectionModel().getSelectedItem();
+        if (typeQuery.equals("Affluence d'une piste spécifique")) {
+            typeQueryInt = 0;
+        } else if (typeQuery.equals("Piste ayant le plus d'affluence")) {
+            typeQueryInt = 1;
+        } else if (typeQuery.equals("Piste ayant le moins d'Affluence")) {
+            typeQueryInt = 2;
+        } 
+        return typeQueryInt;
+    }
+
+    public String getNomPisteDep() {
+        String nomPisteDep =  this.pisteDepart.getSelectionModel().getSelectedItem();
+        return nomPisteDep;
+    }
+
+    public String getNomPisteArr() {
+        String nomPisteArr =  this.pisteArrivee.getSelectionModel().getSelectedItem();
+        return nomPisteArr;
+    }
 
     public void Connexion(ActionEvent event) throws IOException {
         String username = nameLoginTextField.getText();
@@ -186,10 +218,7 @@ public class Controller {
             nameLoginTextField.clear();
             passwordLoginTextField.clear();
             errorLabel.setText("Nom d'utilisateur ou mot de passe incorrect");
-    
         }
-
-        
     }
 
     public void switchToMain(ActionEvent event) throws IOException {
@@ -197,6 +226,7 @@ public class Controller {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Accueil");
         stage.show();
     }
 
@@ -205,6 +235,7 @@ public class Controller {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Connexion");
         stage.show();
     }
 
@@ -213,6 +244,7 @@ public class Controller {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Affluence");
         stage.show();
     }
 
@@ -221,6 +253,7 @@ public class Controller {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Crédits");
         stage.show();
     }
 
@@ -229,6 +262,7 @@ public class Controller {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Pistes Environnantes");
         stage.show();
     }
 
@@ -238,6 +272,7 @@ public class Controller {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Recherche itinéraire");
         stage.show();
     }
 
@@ -247,6 +282,7 @@ public class Controller {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Résultats Affluence");
         stage.show();
     }
 
@@ -256,6 +292,7 @@ public class Controller {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Résultats Pistes Environnantes");
         stage.show();
     }
 
@@ -265,6 +302,7 @@ public class Controller {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Résultats Itinéraire");
         stage.show();
     }
 
@@ -274,6 +312,7 @@ public class Controller {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Résultats Trafic Journalier");
         stage.show(); 
     }
 
@@ -283,6 +322,7 @@ public class Controller {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Trafic Journalier");
         stage.show(); 
     }
 
@@ -292,6 +332,7 @@ public class Controller {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Mise à jour des données");
         stage.show(); 
     }
 
@@ -371,6 +412,31 @@ public class Controller {
             } else {
                 System.out.println("Permissions insuffisantes pour supprimer le fichier.");
             }
+        }
+    }
+
+    public void afficherPistesEnv(MouseEvent event) throws IOException {
+        try {
+            String pisteA = "Vn vers Suce Sur Erdre";
+            ResultSet rs = Requetes.pisteEnviron(pisteA);    
+            CategoryAxis xAxis = new CategoryAxis();
+            NumberAxis yAxis = new NumberAxis();
+            BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+            barChart.setTitle("Pistes environnantes");
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+
+            while (rs.next()) {
+                String piste = rs.getString("piste");
+                int environ = rs.getInt("environ");
+
+                // Ajouter les données à la série
+                series.getData().add(new XYChart.Data<>(piste, environ));
+                barChart.getData().add(series);
+                anchorPaneResPistEnv.getChildren().add(barChart);
+            }
+
+        } catch (NullPointerException e) {
+            errorPiste.setText("Aucune piste sélectionnée.");
         }
     }
 }

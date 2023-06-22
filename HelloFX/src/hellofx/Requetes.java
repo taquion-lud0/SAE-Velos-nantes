@@ -28,9 +28,9 @@ public class Requetes {
 
         ResultSet res = trafficJournalier(date, hD);
         BarChartExample bce = new BarChartExample();
-        bce.trafficJournalierGraph(res);
-        //res = pisteEnviron(pisteA);
-        //bce.pisteEnvironGraph(res);
+        //bce.trafficJournalierGraph(res);
+        res = pisteEnviron(pisteA);
+        bce.pisteEnvironGraph(res);
         //String test = itineraire(pisteD, pisteA);
         //System.out.println(test);
     }
