@@ -96,6 +96,8 @@ public class Controller {
     Button deleteDataButton;
     @FXML
     AnchorPane anchorPaneResPistEnv;
+    @FXML
+    DatePicker dateTrafic;
 
     
     public Controller() {
@@ -181,6 +183,11 @@ public class Controller {
     public String getHeureRech() {
         String heureRech =  this.heureRech.getSelectionModel().getSelectedItem();
         return heureRech;
+    }
+
+    public String getDateTrafic(){
+        String dateTrafic =  this.dateTrafic.getValue().toString();
+        return dateTrafic;
     }
 
     public int getTypeQueryAffluence() {
@@ -439,9 +446,9 @@ public class Controller {
     public void afficherTrafficJournalier(ActionEvent event) throws IOException {
         System.out.println("Affichage du trafic journalier");
         try {
-            String nomPiste = getNomPiste();
+            String date = getDateTrafic();
             String heure = getHeureRech();
-            ResultSet res = Requetes.trafficJournalier(nomPiste, heure);
+            ResultSet res = Requetes.trafficJournalier(date, heure);
             JFreeChart chart = BarChartExample.trafficJournalierGraph(res);
             chart.setTitle("Trafic journalier " + nomPiste);
             // affichage du graphique
