@@ -39,8 +39,8 @@ public class Controller {
     private Scene scene;
     private Parent root;
     private Requetes requetes;
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "password";
+    static final String USERNAME = "root";
+    static final String PASSWORD = "azerty123";
     private FileChooser fileChooser;
 
     @FXML
@@ -98,6 +98,9 @@ public class Controller {
     AnchorPane anchorPaneResPistEnv;
     @FXML
     DatePicker dateTrafic;
+
+    @FXML
+    private Label labelResRechTrajet;
 
     
     public Controller() {
@@ -430,10 +433,12 @@ public class Controller {
             JFreeChart chart = BarChartExample.pisteEnvironGraph(res);
             chart.setTitle("Pistes environnantes " + nomPiste);
             // affichage du graphique
+            
+            /* 
             ChartFrame frame = new ChartFrame("Pistes environnantes " + nomPiste, chart);
             frame.pack();
             frame.setVisible(true);
-
+            */
 
 
 
