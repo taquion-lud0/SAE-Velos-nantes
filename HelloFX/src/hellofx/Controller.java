@@ -1,5 +1,14 @@
+/**
+ * Classe Controller, permet de gérer les évènements de l'interface graphique
+ * @Author : Plantard Louis-Marie, Pineau Ludovic, Stephan Mathieu
+ * @Version : 1.0
+ */
+
 package hellofx;
 
+//import des librairies
+
+//JavaFX pour l'interface graphique
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,34 +23,50 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
-
-import java.sql.ResultSet;
- 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.ChartFrame;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 
+//SQL pour la base de données
+import java.sql.ResultSet;
+import java.sql.Date;
+ 
+//IO pour les fichiers
+import java.io.IOException;
 import java.io.File;
 
+//NIO pour les fichiers
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+//Util pour les listes
+import java.util.ArrayList;
+import java.util.List;
+
+//Jfreechart pour les graphiques
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.ChartFrame;
+
+
+
+
+
 public class Controller {
-    private Stage stage;
-    private Scene scene;
+
+    //déclaration des variables
+    private Stage stage; //fenêtre
+    private Scene scene; //scène
     private Parent root;
+    private FileChooser fileChooser; //permet de choisir un fichier
     private Requetes requetes;
+    //mot de passe et nom de l'admin
     static final String USERNAME = "root";
     static final String PASSWORD = "mYsqldEV-32!";
-    private FileChooser fileChooser;
 
+    
+
+    //déclaration des éléments de l'interface graphique
     @FXML
     TextField nameLoginTextField;
     @FXML
@@ -105,11 +130,17 @@ public class Controller {
     Label error;
 
     
+    //constructeur
     public Controller() {
         this.requetes = new Requetes();
         this.fileChooser = new FileChooser();
     }
 
+    /**
+     * Méthode pour initialiser la liste des heures dans "affluence"
+     * @param event : évènement qui initialise la liste des heures
+     * @throws IOException : exception si erreur
+     */
     public void initializeValueHeure(MouseEvent event) throws IOException {
         if (heureDebut.getItems().isEmpty()) {
             heureDebut.getItems().addAll("h00", "h01", "h02", "h03", "h04", "h05","h06","h07","h08","h09","h10","h11",
@@ -120,6 +151,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Méthode pour initialiser la liste des heures dans "trafic"
+     * @param event
+     * @throws IOException
+     */
     public void initializeValueHeureRech(MouseEvent event) throws IOException {
         if (heureRech.getItems().isEmpty()) {
             heureRech.getItems().addAll("h00", "h01", "h02", "h03", "h04", "h05","h06","h07","h08","h09","h10","h11",
@@ -127,12 +163,22 @@ public class Controller {
         }
     }
 
+    /**
+     * Méthode pour initialiser la liste des options dans "affluence"
+     * @param event : évènement qui initialise la liste des options de recherche
+     * @throws IOException : exception si erreur
+     */
     public void initializeValueTypeQueryAffluence(MouseEvent event) throws IOException {
         if (typeQueryAffluence.getItems().isEmpty()) {
             typeQueryAffluence.getItems().addAll("Affluence d'une piste spécifique", "Piste ayant le plus d'affluence", "Piste ayant le moins d'Affluence");
         }
     }
 
+    /**
+     * Méthode pour initialiser la liste des pistes dans "affluence"
+     * @param event : évènement qui initialise la liste des pistes
+     * @throws IOException : exception si erreur
+     */
     public void initializeValuePiste(MouseEvent event) throws IOException {
         if (nomPiste.getItems().isEmpty()) {
             requetes.addToPisteList();
@@ -143,6 +189,11 @@ public class Controller {
         } 
     }
 
+    /**
+     * Méthode pour initialiser la liste des pistes dans "itineraire"
+     * @param event : évènement qui initialise la liste des pistes
+     * @throws IOException : exception si erreur
+     */
     public void initializeValuePisteDepArr(MouseEvent event) throws IOException {
         if (pisteDepart.getItems().isEmpty()) {
             requetes.addToPisteList();
@@ -159,42 +210,74 @@ public class Controller {
         }
     }
 
+    /**
+     * Méthode pour obtenir le nom de la piste stocké dans les variables de la classe
+     * @return : le nom de la piste
+     */
     public String getNomPiste() {
         String nomPiste = this.nomPiste.getSelectionModel().getSelectedItem();
         return nomPiste;
     }
 
     
+    /**
+     * Méthode pour obtenir la date de debut stocké dans les variables de la classe
+     * @return : la date
+     */
     public Date getDateDebut() {
         Date dateDeb = Date.valueOf(dateDebut.getValue());
         return dateDeb;
     }
 
+    /**
+     * Méthode pour obtenir la date de fin stocké dans les variables de la classe
+     * @return : la date
+     */
     public Date getDateArrivee() {
         Date dateArr = Date.valueOf(dateArrivee.getValue());
         return dateArr;
     }
 
+    /**
+     * Méthode pour obtenir l'heure d'arrivee stocké dans les variables de la classe
+     * @return : l'heure
+     */
     public String getHeureArrivee() {
         String heureArr =  heureArrivee.getSelectionModel().getSelectedItem();
         return heureArr;
     }
 
+    /**
+     * Méthode pour obtenir l'heure de debut stocké dans les variables de la classe
+     * @return : l'heure
+     */
     public String getHeureDebut() {
         String heureDeb =  heureDebut.getSelectionModel().getSelectedItem();
         return heureDeb;
     }
 
+    /**
+     * Méthode pour obtenir l'heure de recherche stocké dans les variables de la classe
+     * @return : l'heure
+     */
     public String getHeureRech() {
         String heureRech =  this.heureRech.getSelectionModel().getSelectedItem();
         return heureRech;
     }
 
+    /**
+     * Méthode pour obtenir la date du trafic stocké dans les variables de la classe
+     * @return : la date
+     */
     public String getDateTrafic(){
         String dateTrafic =  this.dateTrafic.getValue().toString();
         return dateTrafic;
     }
 
+    /**
+     * Méthode pour obtenir le type de requete stocké dans les variables de la classe
+     * @return : le type de requete
+     */
     public int getTypeQueryAffluence() {
         int typeQueryInt = 1;
         String typeQuery =  typeQueryAffluence.getSelectionModel().getSelectedItem();
@@ -208,6 +291,10 @@ public class Controller {
         return typeQueryInt;
     }
 
+    /**
+     * Méthode pour obtenir le nom de la piste de départ stocké dans les variables de la classe
+     * @return : le nom de la piste
+     */
     public String getNomPisteDep() {
         if (this.pisteDepart.getSelectionModel().getSelectedItem() == null) {
             throw new NullPointerException("Aucune piste de départ sélectionnée");
@@ -217,6 +304,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Méthode pour obtenir le nom de la piste d'arrivée stocké dans les variables de la classe
+     * @return : le nom de la piste
+     */
     public String getNomPisteArr() {
         if (this.pisteArrivee.getSelectionModel().getSelectedItem() == null) {
             throw new NullPointerException("Aucune piste d'arrivée sélectionnée");
@@ -226,6 +317,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Méthode pour se connecter à la base de données
+     * @param event : évènement qui permet de se connecter à la base de données
+     * @throws IOException : exception si erreur
+     */
     public void Connexion(ActionEvent event) throws IOException {
         String username = nameLoginTextField.getText();
         String password = passwordLoginTextField.getText();
@@ -239,6 +335,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Méthode pour changer de scène et aller sur la scène d'accueil
+     * @param event : évènement qui permet de changer de scène
+     * @throws IOException : exception si erreur
+     */
     public void switchToMain(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -248,6 +349,11 @@ public class Controller {
         stage.show();
     }
 
+    /**
+     * Méthode pour changer de scène et aller sur la scène de connexion
+     * @param event : évènement qui permet de changer de scène
+     * @throws IOException : exception si erreur
+     */
     public void switchToLogin(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -257,6 +363,11 @@ public class Controller {
         stage.show();
     }
 
+    /**
+     * Méthode pour changer de scène et aller sur la scène de recherche d'affluence
+     * @param event : évènement qui permet de changer de scène
+     * @throws IOException : exception si erreur
+     */
     public void switchToAffluence(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Affluence.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -266,6 +377,11 @@ public class Controller {
         stage.show();
     }
 
+    /**
+     * Méthode pour changer de scène et aller sur la scène des crédits (c'est un secret 😄)
+     * @param event : évènement qui permet de changer de scène
+     * @throws IOException : exception si erreur
+     */
     public void switchToCredit(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Credit.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -275,6 +391,11 @@ public class Controller {
         stage.show();
     }
 
+    /**
+     * Méthode pour changer de scène et aller sur la scène de recherche des pistes environnantes
+     * @param event : évènement qui permet de changer de scène
+     * @throws IOException : exception si erreur
+     */
     public void switchToPistesEnv(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("PistesEnv.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -284,7 +405,11 @@ public class Controller {
         stage.show();
     }
 
-    //pour RechTrajet.fxml
+    /**
+     * Méthode pour changer de scène et aller sur la scène de recherche d'itinéraire
+     * @param event : évènement qui permet de changer de scène
+     * @throws IOException : exception si erreur
+     */
     public void switchToRechTrajet(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("RechTrajet.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -294,7 +419,11 @@ public class Controller {
         stage.show();
     }
 
-    //pour ResAffluence.fxml
+    /**
+     * Méthode pour changer de scène et aller sur la scène de recherche d'affluence (non utilisée)
+     * @param event : évènement qui permet de changer de scène
+     * @throws IOException : exception si erreur
+     */
     public void switchToResAffluence(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("ResAffluence.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -304,7 +433,11 @@ public class Controller {
         stage.show();
     }
 
-    //pour ResPistesEnv.fxml
+    /**
+     * Méthode pour changer de scène et aller sur la scène de recherche des pistes environnantes (non utilisée)
+     * @param event : évènement qui permet de changer de scène
+     * @throws IOException : exception si erreur
+     */
     public void switchToResPistesEnv(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("ResPistesEnv.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -314,7 +447,11 @@ public class Controller {
         stage.show();
     }
 
-    //pour ResRechTrajet.fxml
+    /**
+     * Méthode pour changer de scène et aller sur la scène de recherche d'itinéraire (non utilisée)
+     * @param event : évènement qui permet de changer de scène
+     * @throws IOException : exception si erreur
+     */
     public void switchToResRechTrajet(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("ResRechTrajet.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -325,7 +462,11 @@ public class Controller {
         
     }
 
-    //pour ResTrafic.fxml
+    /**
+     * Méthode pour changer de scène et aller sur la scène de recherche de trafic journalier (non utilisée)
+     * @param event : évènement qui permet de changer de scène
+     * @throws IOException : exception si erreur
+     */
     public void switchToResTrafic(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("ResTrafic.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -335,7 +476,12 @@ public class Controller {
         stage.show(); 
     }
 
-    //pour Trafic.fxml
+
+    /**
+     * Méthode pour changer de scène et aller sur la scène de recherche de trafic journalier
+     * @param event : évènement qui permet de changer de scène
+     * @throws IOException : exception si erreur
+     */
     public void switchToTrafic(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Trafic.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -345,7 +491,11 @@ public class Controller {
         stage.show(); 
     }
 
-    //pour UpdateData.fxml
+    /**
+     * Méthode pour changer de scène et aller sur la scène de mise à jour des données   
+     * @param event : évènement qui permet de changer de scène
+     * @throws IOException : exception si erreur
+     */
     public void switchToUpdateData(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("UpdateData.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -355,6 +505,11 @@ public class Controller {
         stage.show(); 
     }
 
+    /**
+     * Méthode pour faire telecharger la carte
+     * @param event : évènement qui permet de lance le téléchargement
+     * @throws IOException : exception si erreur
+     */
     public void downloadMap(MouseEvent event) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choisir l'emplacement de téléchargement");
@@ -375,6 +530,11 @@ public class Controller {
         Files.copy(imageFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
     } 
 
+    /**
+     * Méthode pour faire telecharger les données (csv qui contient les données de la bdd)
+     * @param event : évènement qui permet de lancer le téléchargement
+     * @throws IOException : exception si erreur
+     */
     public void downloadData(MouseEvent event) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choisir l'emplacement de téléchargement");
@@ -397,6 +557,10 @@ public class Controller {
         }
     }
 
+    /**
+     * Méthode pour uploader les données (csv qui contient les données de la bdd) via un drag and drop
+     * @param event : évènement qui permet de lancer l'upload
+     */
     public void anchorPaneRootOnDragOver(DragEvent event) {
         if (event.getDragboard().hasFiles()) {
             event.acceptTransferModes(TransferMode.ANY);
@@ -404,6 +568,10 @@ public class Controller {
     }
 
     
+    /**
+     * Méthode pour uploader les données (csv qui contient les données de la bdd) a partir du drag and drop précédent
+     * @param event : évènement qui permet de lancer l'upload
+     */
     public void anchorPaneRootOnDragDropped(DragEvent event) {
         if (event.getDragboard().hasFiles()) {
             List<File> files = event.getDragboard().getFiles();
@@ -422,6 +590,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Méthode pour supprimer les données (csv qui contient les données de la bdd)
+     * @param event : évènement qui permet de lancer la suppression
+     * @throws IOException : exception si erreur
+     */
     public void deleteNewData(MouseEvent event) throws IOException {
         String target = "data/newData.csv";
         File file = new File(target);
@@ -434,12 +607,14 @@ public class Controller {
         }
     }
 
+    /**
+     * Méthode pour afficher les pistes environnantes (graphique)
+     * @param event : évènement qui permet de lancer l'affichage
+     * @throws IOException : exception si erreur
+     */
     public void afficherPistesEnv(ActionEvent event) throws IOException {
-        System.out.println("Affichage des pistes environnantes");
         try {
-            System.out.println("Test1");
             String nomPiste = getNomPiste();
-            System.out.println(nomPiste);
             ResultSet res = Requetes.pisteEnviron(nomPiste);
             JFreeChart chart = BarChartExample.pisteEnvironGraph(res);
             chart.setTitle("Pistes environnantes " + nomPiste);
@@ -457,8 +632,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Méthode pour afficher le trafic journalier (graphique)
+     * @param event : évènement qui permet de lancer l'affichage
+     * @throws IOException : exception si erreur
+     */
     public void afficherTrafficJournalier(ActionEvent event) throws IOException {
-        System.out.println("Affichage du trafic journalier");
         try {
             String date = getDateTrafic();
             String heure = getHeureRech();
@@ -474,14 +653,16 @@ public class Controller {
         }
     }
 
+    /**
+     * Méthode pour afficher le resultat de la recherche de trajet (texte)
+     * @param event : évènement qui permet de lancer l'affichage
+     * @throws IOException : exception si erreur
+     */
     public void afficherRechTrajet(ActionEvent event) throws IOException {
-        System.out.println("Affichage du trajet : ");
         try {
-            System.out.println("Affichage du trajet : " + getNomPisteDep() + " - " + getNomPisteArr());
             String nomPisteDep = getNomPisteDep();
             String nomPisteArr = getNomPisteArr();
             String itineraire = Requetes.itineraire(nomPisteDep, nomPisteArr);
-            System.out.println(itineraire);
             //remplace labelResRechTrajet par le résultat de la requête
             labelResRechTrajet.setText(itineraire);
             //met le label en avant
@@ -496,18 +677,20 @@ public class Controller {
     }
 
 
+    /**
+     * Méthode pour afficher l'affluence (graphique)
+     * @param event : évènement qui permet de lancer l'affichage
+     * @throws IOException : exception si erreur
+     */
     public void afficherAffluence(ActionEvent event) throws IOException{
-        System.out.println("Affichage de l'affluence");
         try {
 
             String dateD = getDateDebut().toString();
             String dateA = getDateArrivee().toString();
             String heureD = "h00";
             heureD = getHeureDebut();
-            System.out.println(heureD);
             String heureA = "h23";
             heureA = getHeureArrivee();
-            System.out.println(heureA);
             int affluence = getTypeQueryAffluence();
             String nomPiste = getNomPiste();
             ResultSet res = null;

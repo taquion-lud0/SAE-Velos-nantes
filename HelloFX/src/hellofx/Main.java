@@ -1,9 +1,7 @@
 /**
- * Main.java
- * @version 1.0
- * @package hellofx
- * @project velo_bdd
- * @date 22/06/2023 
+ * Classe Main, permet de lancer l'application JavaFX
+ * @Author : Plantard Louis-Marie, Pineau Ludovic, Stephan Mathieu
+ * @Version : 1.0
  */
 
 package hellofx;

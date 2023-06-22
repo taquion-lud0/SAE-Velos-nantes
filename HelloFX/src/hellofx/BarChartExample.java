@@ -1,7 +1,17 @@
+/**
+ * Classe BarChartExample, permet de créer des graphiques en barres pour traiter les données de la base de données
+ * @Author : Plantard Louis-Marie, Pineau Ludovic, Stephan Mathieu
+ * @Version : 1.0
+ */
+
 package hellofx;
 
+//import des librairies
+
+//Permet de traiter les données de la base de données
 import java.sql.ResultSet;
 
+//Permet de créer des graphiques en barres
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -9,13 +19,16 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 public class BarChartExample {
 
+    /**
+     * Méthode qui permet de créer un graphique en barres pour le traffic journalier
+     * @param set - ResultSet qui contient les données de la base de données
+     * @return JFreeChart - graphique en barres
+     */
     public static JFreeChart trafficJournalierGraph(ResultSet set){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        System.out.println("trafficJournalierGraph");
         try {
             while (set.next()) {
                 int nbVelos = set.getInt("nbVelos");
-                System.out.println("nbVelos : " + nbVelos);
                 String nomCompteur = set.getString("nomCompteur");
                 String sens = set.getString("sens");
                 //concaténation du nom du compteur et du sens pour avoir un nom unique
@@ -41,16 +54,18 @@ public class BarChartExample {
         return chart;
     }
 
+    /**
+     * Méthode qui permet de créer un graphique en barres pour afficher la distance des pistes environnantes
+     * @param set - ResultSet qui contient les données de la base de données
+     * @return JFreeChart - graphique en barres
+     */
     public static JFreeChart pisteEnvironGraph(ResultSet set){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        System.out.println("pisteEnvironGraph");
 
         try {
             while (set.next()) {
                 String compteursProches = set.getString("compteursProches");
-                System.out.println("compteursProches : " + compteursProches);
                 double dist_km = set.getDouble("dist_km");
-                System.out.println("dist_km : " + dist_km);
                 dataset.addValue(dist_km, compteursProches, " ");
             }
         } catch (Exception e) {
@@ -73,9 +88,13 @@ public class BarChartExample {
         
     }
 
+    /**
+     * Méthode qui permet de créer un graphique en barres pour afficher l'affluence (une piste ou toutes les pistes) avec une echelle de temps en jour
+     * @param set - ResultSet qui contient les données de la base de données
+     * @return JFreeChart - graphique en barres
+     */
     public static JFreeChart affluenceSansHGraph(ResultSet set){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        System.out.println("affluenceGraph");
 
         try{
             while (set.next()) {
@@ -107,9 +126,13 @@ public class BarChartExample {
         return chart;
     }
 
+    /**
+     * Méthode qui permet de créer un graphique en barres pour afficher l'affluence (une piste ou toutes les pistes) avec une echelle de temps en heure
+     * @param set - ResultSet qui contient les données de la base de données
+     * @return JFreeChart - graphique en barres
+     */
     public static JFreeChart affluenceAvecHGraph(ResultSet set){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        System.out.println("affluenceGraph");
 
         try{
             while (set.next()) {
@@ -184,9 +207,6 @@ public class BarChartExample {
             true, // Générer les tooltips
             false // Générer les URLs
         );
-
         return chart;
-
-
     }
 }
