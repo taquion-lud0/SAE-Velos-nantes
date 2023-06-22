@@ -102,6 +102,9 @@ public class Controller {
     @FXML
     private Label labelResRechTrajet;
 
+    @FXML	
+    private Label error;
+
     
     public Controller() {
         this.requetes = new Requetes();
@@ -489,14 +492,21 @@ public class Controller {
 
             String dateD = getDateDebut().toString();
             String dateA = getDateArrivee().toString();
-            String heureD = getHeureDebut();
+            String heureD = "h00";
+            heureD = getHeureDebut();
             System.out.println(heureD);
-            String heureA = getHeureArrivee();
+            String heureA = "h23";
+            heureA = getHeureArrivee();
             System.out.println(heureA);
             int affluence = getTypeQueryAffluence();
             String nomPiste = getNomPiste();
             ResultSet res = null;
             JFreeChart chart = null;
+            if(heureA == null || heureD == null || nomPiste == null){
+                heureA = "h23";
+                heureD = "h00";
+                nomPiste = "50 Otages Sud";
+            }
             if(heureD.equals("h00") && heureA.equals("h23")){
                 res = Requetes.affluenceSansH(dateD, dateA, nomPiste, affluence);
                 chart = BarChartExample.affluenceSansHGraph(res);
@@ -512,7 +522,7 @@ public class Controller {
             frame.pack();
             frame.setVisible(true);
         } catch (NullPointerException e) {
-            errorPiste.setText("Aucune piste sélectionnée.");
+            error.setText("Aucune date/piste sélectionnée.");
         }
     }
 }
