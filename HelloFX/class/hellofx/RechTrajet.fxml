@@ -28,6 +28,7 @@
             </Label>
             <ComboBox fx:id="pisteDepart" layoutX="35.0" layoutY="51.0" onMouseEntered="#initializeValuePisteDepArr" prefHeight="25.0" prefWidth="320.0" promptText="Piste de départ (Exemple : 50 Otages vers Sud)" />
             <ComboBox fx:id="pisteArrivee" layoutX="35.0" layoutY="108.0" onMouseEntered="#initializeValuePisteDepArr" prefHeight="25.0" prefWidth="320.0" promptText="Piste d'arrivée (Exemple : Bonduelle vers Nord)" />
+            <Label fx:id="errorPiste" alignment="CENTER" contentDisplay="CENTER" layoutY="128.0" prefHeight="17.0" prefWidth="517.0" text="..." textFill="RED" />
          </children>
       </AnchorPane>
    </children>

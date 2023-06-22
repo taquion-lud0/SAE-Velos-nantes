@@ -166,6 +166,12 @@ public class Requetes {
         String nomPiste = pistSplit[0];
         String sens = pistSplit[1];
 
+        //met les dates dans l'order
+        if(LocalDate.parse(dateD).isAfter(LocalDate.parse(dateF))){
+            String tmp = dateD;
+            dateD = dateF;
+            dateF = tmp;
+        }
 
         //nb de jours entre les 2 dates (dateF - dateD)
         int nbJours = (int) ChronoUnit.DAYS.between(LocalDate.parse(dateD), LocalDate.parse(dateF)) +1;
@@ -208,6 +214,12 @@ public class Requetes {
         System.out.println(nomPiste);
         String sens = pistSplit[1];
 
+        //met les dates dans l'order
+        if(LocalDate.parse(dateD).isAfter(LocalDate.parse(dateF))){
+            String tmp = dateD;
+            dateD = dateF;
+            dateF = tmp;
+        }
 
         //nb de jours entre les 2 dates
         int nbJours = (int) ChronoUnit.DAYS.between(LocalDate.parse(dateD), LocalDate.parse(dateF)) + 1;

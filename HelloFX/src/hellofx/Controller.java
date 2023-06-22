@@ -483,4 +483,36 @@ public class Controller {
             errorPiste.setText("Aucune piste sélectionnée.");
         }
     }
+    public void afficherAffluence(ActionEvent event) throws IOException{
+        System.out.println("Affichage de l'affluence");
+        try {
+
+            String dateD = getDateDebut().toString();
+            String dateA = getDateArrivee().toString();
+            String heureD = getHeureDebut();
+            System.out.println(heureD);
+            String heureA = getHeureArrivee();
+            System.out.println(heureA);
+            int affluence = getTypeQueryAffluence();
+            String nomPiste = getNomPiste();
+            ResultSet res = null;
+            JFreeChart chart = null;
+            if(heureD.equals("h00") && heureA.equals("h23")){
+                res = Requetes.affluenceSansH(dateD, dateA, nomPiste, affluence);
+                chart = BarChartExample.affluenceSansHGraph(res);
+            }
+            else{
+                res = Requetes.affluenceAvecH(dateD, dateA, nomPiste, affluence);
+                chart = BarChartExample.affluenceAvecHGraph(res);
+            }
+            
+            chart.setTitle("Affluence " + nomPiste);
+            // affichage du graphique
+            ChartFrame frame = new ChartFrame("Affluence " + nomPiste, chart);
+            frame.pack();
+            frame.setVisible(true);
+        } catch (NullPointerException e) {
+            errorPiste.setText("Aucune piste sélectionnée.");
+        }
+    }
 }
