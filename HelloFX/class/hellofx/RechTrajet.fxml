@@ -20,15 +20,16 @@
       </Label>
       <AnchorPane layoutX="43.0" layoutY="90.0" prefHeight="266.0" prefWidth="515.0" style="-fx-background-color: #1b3280;">
          <children>
-            <Button layoutX="293.0" layoutY="181.0" mnemonicParsing="false" onAction="#switchToResRechTrajet" prefHeight="24.0" prefWidth="153.0" text="Calculer l'itinéraire" textAlignment="CENTER" />
+            <Button layoutX="293.0" layoutY="181.0" mnemonicParsing="false" onAction="#afficherRechTrajet" prefHeight="24.0" prefWidth="153.0" text="Calculer l'itinéraire" textAlignment="CENTER" />
             <Label layoutX="35.0" layoutY="183.0" prefHeight="21.0" prefWidth="256.0" text="Le trajet le plus court sera calculé." textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
+            <Label fx:id="labelResRechTrajet" alignment="TOP_LEFT" contentDisplay="TOP" graphicTextGap="1.0" layoutX="22.0" layoutY="21.0" onMouseClicked="#afficherRechTrajet" prefHeight="160.0" prefWidth="471.0" text="Chargement..." textAlignment="CENTER" textFill="WHITE" wrapText="true" />
             <ComboBox fx:id="pisteDepart" layoutX="35.0" layoutY="51.0" onMouseEntered="#initializeValuePisteDepArr" prefHeight="25.0" prefWidth="320.0" promptText="Piste de départ (Exemple : 50 Otages vers Sud)" />
             <ComboBox fx:id="pisteArrivee" layoutX="35.0" layoutY="108.0" onMouseEntered="#initializeValuePisteDepArr" prefHeight="25.0" prefWidth="320.0" promptText="Piste d'arrivée (Exemple : Bonduelle vers Nord)" />
-            <Label fx:id="errorPiste" alignment="CENTER" contentDisplay="CENTER" layoutY="128.0" prefHeight="17.0" prefWidth="517.0" text="..." textFill="RED" />
+            <Label fx:id="errorPiste" alignment="CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="226.0" prefHeight="18.0" prefWidth="386.0" text="..." textFill="RED" />
          </children>
       </AnchorPane>
    </children>

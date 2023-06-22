@@ -100,10 +100,10 @@ public class Controller {
     DatePicker dateTrafic;
 
     @FXML
-    private Label labelResRechTrajet;
+    Label labelResRechTrajet;
 
     @FXML	
-    private Label error;
+    Label error;
 
     
     public Controller() {
@@ -292,7 +292,6 @@ public class Controller {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Recherche itinéraire");
-        afficherRechTrajet();
         stage.show();
     }
 
@@ -324,6 +323,7 @@ public class Controller {
         stage.setScene(scene);
         stage.setTitle("Résultats Itinéraire");
         stage.show();
+        
     }
 
     //pour ResTrafic.fxml
@@ -465,27 +465,38 @@ public class Controller {
             String heure = getHeureRech();
             ResultSet res = Requetes.trafficJournalier(date, heure);
             JFreeChart chart = BarChartExample.trafficJournalierGraph(res);
-            chart.setTitle("Trafic journalier " + nomPiste);
+            chart.setTitle("Trafic journalier le " + date + " à " + heure);
             // affichage du graphique
-            ChartFrame frame = new ChartFrame("Trafic journalier " + nomPiste, chart);
+            ChartFrame frame = new ChartFrame("Trafic journalier", chart);
             frame.pack();
             frame.setVisible(true);
         } catch (NullPointerException e) {
-            errorPiste.setText("Aucune piste sélectionnée.");
+            errorPiste.setText("Aucune date/heure sélectionnée.");
         }
     }
 
-    public void afficherRechTrajet() throws IOException {
+    public void afficherRechTrajet(ActionEvent event) throws IOException {
+        System.out.println("Affichage du trajet : ");
         try {
             System.out.println("Affichage du trajet : " + getNomPisteDep() + " - " + getNomPisteArr());
             String nomPisteDep = getNomPisteDep();
             String nomPisteArr = getNomPisteArr();
             String itineraire = Requetes.itineraire(nomPisteDep, nomPisteArr);
-            this.labelResRechTrajet.setText(itineraire);
+            System.out.println(itineraire);
+            //remplace labelResRechTrajet par le résultat de la requête
+            labelResRechTrajet.setText(itineraire);
+            //met le label en avant
+            labelResRechTrajet.setVisible(true);
+            pisteArrivee.setVisible(false);
+            pisteDepart.setVisible(false);
+
+            
         } catch (NullPointerException e) {
             errorPiste.setText("Aucune piste sélectionnée.");
         }
     }
+
+
     public void afficherAffluence(ActionEvent event) throws IOException{
         System.out.println("Affichage de l'affluence");
         try {
@@ -505,7 +516,6 @@ public class Controller {
             if(heureA == null || heureD == null || nomPiste == null){
                 heureA = "h23";
                 heureD = "h00";
-                nomPiste = "50 Otages Sud";
             }
             if(heureD.equals("h00") && heureA.equals("h23")){
                 res = Requetes.affluenceSansH(dateD, dateA, nomPiste, affluence);
@@ -525,4 +535,5 @@ public class Controller {
             error.setText("Aucune date/piste sélectionnée.");
         }
     }
+
 }

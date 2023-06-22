@@ -89,11 +89,11 @@ public class Requetes {
 
     public static ResultSet trafficJournalier(String date, String heure){
         ResultSet res = null;
-
+        System.out.println("test");
         try {
             Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
             String query = "SELECT SUM("+heure+") AS nbVelos, nomCompteur, sens FROM Comptage, Compteur WHERE Comptage.leCompteur = Compteur.idCompteur AND dateComptage = '"+date+"' Group BY nomCompteur, sens;";
-
+            System.out.println(query);
             Statement statement = connection.createStatement();
             res = statement.executeQuery(query);
 
@@ -133,16 +133,30 @@ public class Requetes {
         String sensD = pistSplitD[1];
         String nomPisteA = pistSplitA[0];
         String sensA = pistSplitA[1];
+        System.out.println(pisteD);
+        System.out.println(pisteA);
+        System.out.println(nomPisteD);
+        System.out.println(sensD);
+        System.out.println(nomPisteA);
+        System.out.println(sensA);
 
         try{
 
             Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            String query = "SELECT CONCAT(c2.nomCompteur, c2.sens) AS compteur_Intermédiaire, ACOS(SIN(RADIANS(c1.COORD_X)) * SIN(RADIANS(c2.COORD_X)) + COS(RADIANS(c1.COORD_X)) * COS(RADIANS(c2.COORD_X)) * COS(RADIANS(c2.COORD_Y - c1.COORD_Y))) * 6371  AS dist_Départ_Chemin FROM Compteur c1, Compteur c2, Compteur c3  WHERE c1.nomCompteur != c2.nomCompteur AND c2.nomCompteur  != c3.nomCompteur AND c1.nomCompteur != c3.nomCompteur AND UPPER(c1.nomCompteur) = '"+nomPisteD+"' AND UPPER(c1.sens) = '"+ sensD +"' AND UPPER(c3.nomCompteur) = '"+nomPisteA+"'  AND UPPER(c3.sens) = '"+sensA+"' AND c1.COORD_X <= c2.COORD_X  AND c2.COORD_X <= c3.COORD_X AND c1.COORD_Y <= c2.COORD_Y AND c2.COORD_Y <= c3.COORD_Y ORDER BY dist_Départ_Chemin;";
-            
+            String query = "SELECT CONCAT(c2.nomCompteur, c2.sens) AS compteur_Intermédiaire, ACOS(SIN(RADIANS(abs(c1.COORD_X))) * SIN(RADIANS(abs(c2.COORD_X))) + COS(RADIANS(abs(c1.COORD_X))) * COS(RADIANS(abs(c2.COORD_X))) * COS(RADIANS(abs(c2.COORD_Y) - abs(c1.COORD_Y)))) * 6371  AS dist_Départ_Chemin FROM Compteur c1, Compteur c2, Compteur c3  WHERE c1.nomCompteur != c2.nomCompteur AND c2.nomCompteur  != c3.nomCompteur AND c1.nomCompteur != c3.nomCompteur AND UPPER(c1.nomCompteur) = '"+nomPisteD+"' AND UPPER(c1.sens) = '"+ sensD +"' AND UPPER(c3.nomCompteur) = '"+nomPisteA+"'  AND UPPER(c3.sens) = '"+sensA+"' AND c1.COORD_X <= c2.COORD_X  AND c2.COORD_X <= c3.COORD_X AND c1.COORD_Y <= c2.COORD_Y AND c2.COORD_Y <= c3.COORD_Y ORDER BY dist_Départ_Chemin;";
+            System.out.println(query);
             Statement statement = connection.createStatement();
             ResultSet listSest = statement.executeQuery(query);
             while(listSest.next()){
                 itineraire += listSest.getString("compteur_Intermédiaire") + " -> ";
+            }
+            if (itineraire.equals("")){
+                query = "SELECT CONCAT(c2.nomCompteur, c2.sens) AS compteur_Intermédiaire, ACOS(SIN(RADIANS(abs(c1.COORD_X))) * SIN(RADIANS(abs(c2.COORD_X))) + COS(RADIANS(abs(c1.COORD_X))) * COS(RADIANS(abs(c2.COORD_X))) * COS(RADIANS(abs(c2.COORD_Y) - abs(c1.COORD_Y)))) * 6371  AS dist_Départ_Chemin FROM Compteur c1, Compteur c2, Compteur c3  WHERE c1.nomCompteur != c2.nomCompteur AND c2.nomCompteur  != c3.nomCompteur AND c1.nomCompteur != c3.nomCompteur AND UPPER(c1.nomCompteur) = '"+nomPisteA+"' AND UPPER(c1.sens) = '"+ sensA +"' AND UPPER(c3.nomCompteur) = '"+nomPisteD+"'  AND UPPER(c3.sens) = '"+sensD+"' AND c1.COORD_X <= c2.COORD_X  AND c2.COORD_X <= c3.COORD_X AND c1.COORD_Y <= c2.COORD_Y AND c2.COORD_Y <= c3.COORD_Y ORDER BY dist_Départ_Chemin;";
+                statement = connection.createStatement();
+                listSest = statement.executeQuery(query);
+                while(listSest.next()){
+                    itineraire += listSest.getString("compteur_Intermédiaire") + " <- ";
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

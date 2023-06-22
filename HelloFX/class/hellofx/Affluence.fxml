@@ -61,6 +61,7 @@
             <DatePicker fx:id="dateArrivee" layoutX="32.0" layoutY="112.0" promptText="Date" />
             <DatePicker fx:id="dateDebut" layoutX="32.0" layoutY="67.0" promptText="Date" />
             <ComboBox fx:id="typeQueryAffluence" layoutX="45.0" layoutY="192.0" onMouseEntered="#initializeValueTypeQueryAffluence" prefHeight="25.0" prefWidth="174.0" promptText="Nature de la requête" />
+            <Label fx:id="error" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="252.0" prefHeight="23.0" prefWidth="422.0" text="..." textFill="RED" />
          </children>
       </AnchorPane>
    </children>
