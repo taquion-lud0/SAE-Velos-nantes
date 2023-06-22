@@ -40,7 +40,7 @@ public class Controller {
     private Parent root;
     private Requetes requetes;
     static final String USERNAME = "root";
-    static final String PASSWORD = "azerty123";
+    static final String PASSWORD = "mYsqldEV-32!";
     private FileChooser fileChooser;
 
     @FXML
@@ -207,13 +207,21 @@ public class Controller {
     }
 
     public String getNomPisteDep() {
+        if (this.pisteDepart.getSelectionModel().getSelectedItem() == null) {
+            throw new NullPointerException("Aucune piste de départ sélectionnée");
+        } else {
         String nomPisteDep =  this.pisteDepart.getSelectionModel().getSelectedItem();
         return nomPisteDep;
+        }
     }
 
     public String getNomPisteArr() {
-        String nomPisteArr =  this.pisteArrivee.getSelectionModel().getSelectedItem();
-        return nomPisteArr;
+        if (this.pisteArrivee.getSelectionModel().getSelectedItem() == null) {
+            throw new NullPointerException("Aucune piste d'arrivée sélectionnée");
+        } else {
+            String nomPisteArr =  this.pisteArrivee.getSelectionModel().getSelectedItem();
+            return nomPisteArr;
+        }
     }
 
     public void Connexion(ActionEvent event) throws IOException {
@@ -281,6 +289,7 @@ public class Controller {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Recherche itinéraire");
+        afficherRechTrajet();
         stage.show();
     }
 
@@ -434,12 +443,10 @@ public class Controller {
             chart.setTitle("Pistes environnantes " + nomPiste);
             // affichage du graphique
             
-            /* 
+            
             ChartFrame frame = new ChartFrame("Pistes environnantes " + nomPiste, chart);
             frame.pack();
             frame.setVisible(true);
-            */
-
 
 
             
@@ -460,6 +467,18 @@ public class Controller {
             ChartFrame frame = new ChartFrame("Trafic journalier " + nomPiste, chart);
             frame.pack();
             frame.setVisible(true);
+        } catch (NullPointerException e) {
+            errorPiste.setText("Aucune piste sélectionnée.");
+        }
+    }
+
+    public void afficherRechTrajet() throws IOException {
+        try {
+            System.out.println("Affichage du trajet : " + getNomPisteDep() + " - " + getNomPisteArr());
+            String nomPisteDep = getNomPisteDep();
+            String nomPisteArr = getNomPisteArr();
+            String itineraire = Requetes.itineraire(nomPisteDep, nomPisteArr);
+            this.labelResRechTrajet.setText(itineraire);
         } catch (NullPointerException e) {
             errorPiste.setText("Aucune piste sélectionnée.");
         }
