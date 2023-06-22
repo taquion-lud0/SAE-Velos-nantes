@@ -8,12 +8,14 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import javafx.scene.chart.Chart;
+
 public class BarChartExample {
     public static void main(String[] args) {
 
     }
 
-    public void trafficJournalierGraph(ResultSet set){
+    public static JFreeChart trafficJournalierGraph(ResultSet set){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         System.out.println("trafficJournalierGraph");
         try {
@@ -42,13 +44,10 @@ public class BarChartExample {
             false // Générer les URLs
         );
 
-        // Affichage du graphique dans une fenêtre
-        ChartFrame frame = new ChartFrame("Bar Chart Example", chart);
-        frame.pack();
-        frame.setVisible(true);
+        return chart;
     }
 
-    public void pisteEnvironGraph(ResultSet set){
+    public static JFreeChart pisteEnvironGraph(ResultSet set){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         System.out.println("pisteEnvironGraph");
 
@@ -66,7 +65,7 @@ public class BarChartExample {
 
         // Création du graphique
         JFreeChart chart = ChartFactory.createBarChart(
-            "Piste environnante", // Titre du graphique
+            "Pistes environnante de la piste", // Titre du graphique 
             "Compteurs", // Axe des x
             "Distance (km)", // Axe des y
             dataset, // Jeu de données
@@ -76,10 +75,7 @@ public class BarChartExample {
             false // Générer les URLs
         );
 
-        // Affichage du graphique dans une fenêtre
-        ChartFrame frame = new ChartFrame("Bar Chart Example", chart);
-        frame.pack();
-        frame.setVisible(true);
+        return chart;
         
     }
 }

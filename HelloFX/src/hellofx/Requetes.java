@@ -5,17 +5,18 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
 import java.sql.ResultSet;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+
 
 public class Requetes {
     private ArrayList<String> lesCompteurs = new ArrayList<String>(); 
     private ArrayList<String> lesHeures = new ArrayList<String>();
     private final String URL = "jdbc:mysql://localhost:3306/velo_bdd";
     private final String USER = "root";
-    private final String PASSWORD = "azerty123";
+    private final String PASSWORD = "123456";
 
     public static void main(String[] args) {
         //Exemple de requete
@@ -29,14 +30,15 @@ public class Requetes {
         ResultSet res = trafficJournalier(date, hD);
         BarChartExample bce = new BarChartExample();
         //bce.trafficJournalierGraph(res);
-        res = pisteEnviron(pisteA);
-        bce.pisteEnvironGraph(res);
+        //bce.pisteEnvironGraph(res);
+
+        //affluence = affluence(date, hD, hA, pisteD, pisteA);
         //String test = itineraire(pisteD, pisteA);
         //System.out.println(test);
     }
     
-    public Requetes (ArrayList<String> lesCompteurs) {
-        this.lesCompteurs = lesCompteurs;
+    public Requetes () {
+        //this.lesCompteurs = lesCompteurs;
     }
 
     public void addToPisteList() {
@@ -70,7 +72,7 @@ public class Requetes {
         try {
             String url = "jdbc:mysql://localhost:3306/velo_bdd";
             String user = "root";
-            String password = "azerty123";
+            String password = "123456";
 
             Connection connection = DriverManager.getConnection(url, user, password);
             String query = "SELECT SUM("+heure+") AS nbVelos, nomCompteur, sens FROM Comptage, Compteur WHERE Comptage.leCompteur = Compteur.idCompteur AND dateComptage = '"+date+"' Group BY nomCompteur, sens;";
@@ -86,15 +88,17 @@ public class Requetes {
 
     public static ResultSet pisteEnviron(String piste){
         ResultSet res = null;
-        //separe le nom de la piste et le sens tous ce qui est avant "vers" est le nom de la piste et ce qui est apres est le sens
-        String nomPiste = piste.split(" vers ")[0];
-        String sens = piste.split(" vers ")[1];
-        nomPiste = nomPiste + " ";
+        String[] SplitnomPiste = piste.split(" ");
+        String sens = SplitnomPiste[SplitnomPiste.length-1];
+        String nomPiste = "";
+        for(int i = 0; i < SplitnomPiste.length-1; i++){
+            nomPiste = nomPiste + SplitnomPiste[i] + " ";
+        }
 
         try {
             String url = "jdbc:mysql://localhost:3306/velo_bdd";
             String user = "root";
-            String password = "azerty123";
+            String password = "123456";
 
             Connection connection = DriverManager.getConnection(url, user, password);
             String query = "SELECT DISTINCT(CONCAT(c2.nomCompteur, c2.sens)) AS compteursProches, ACOS(SIN(RADIANS(c1.COORD_X)) * SIN(RADIANS(c2.COORD_X)) + COS(RADIANS(c1.COORD_X)) * COS(RADIANS(c2.COORD_X)) * COS(RADIANS(c2.COORD_Y - c1.COORD_Y))) * 6371  AS dist_km FROM Compteur c1, Compteur c2 WHERE c1.nomCompteur = '"+ nomPiste+"' AND c1.sens = '"+sens+"' AND c1.nomCompteur != c2.nomCompteur ORDER BY dist_km LIMIT 5;";
@@ -162,7 +166,7 @@ public class Requetes {
         }
         String url = "jdbc:mysql://localhost:3306/velo_bdd";
         String user = "root";
-        String password = "azerty123";
+        String password = "123456";
 
         if(affluence == 0){
             if(hD.equals("h00") && hA.equals("h23")){

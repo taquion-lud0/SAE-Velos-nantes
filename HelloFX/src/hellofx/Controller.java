@@ -2,10 +2,6 @@ package hellofx;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -26,14 +22,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
-
-import com.mysql.cj.protocol.Resultset;
-
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.ChartFrame;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -106,7 +99,7 @@ public class Controller {
 
     
     public Controller() {
-        this.requetes = new Requetes(new ArrayList<String>());
+        this.requetes = new Requetes();
         this.fileChooser = new FileChooser();
     }
 
@@ -183,6 +176,11 @@ public class Controller {
     public String getHeureDebut() {
         String heureDeb =  heureDebut.getSelectionModel().getSelectedItem();
         return heureDeb;
+    }
+
+    public String getHeureRech() {
+        String heureRech =  this.heureRech.getSelectionModel().getSelectedItem();
+        return heureRech;
     }
 
     public int getTypeQueryAffluence() {
@@ -414,31 +412,44 @@ public class Controller {
             }
         }
     }
-    /* 
-    public void afficherPistesEnv(MouseEvent event) throws IOException {
+
+    public void afficherPistesEnv(ActionEvent event) throws IOException {
+        System.out.println("Affichage des pistes environnantes");
         try {
-            String pisteA = "Vn vers Suce Sur Erdre";
-            ResultSet rs = Requetes.pisteEnviron(pisteA);    
-            CategoryAxis xAxis = new CategoryAxis();
-            NumberAxis yAxis = new NumberAxis();
-            BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
-            barChart.setTitle("Pistes environnantes");
-            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            System.out.println("Test1");
+            String nomPiste = getNomPiste();
+            System.out.println(nomPiste);
+            ResultSet res = Requetes.pisteEnviron(nomPiste);
+            JFreeChart chart = BarChartExample.pisteEnvironGraph(res);
+            chart.setTitle("Pistes environnantes " + nomPiste);
+            // affichage du graphique
+            ChartFrame frame = new ChartFrame("Pistes environnantes " + nomPiste, chart);
+            frame.pack();
+            frame.setVisible(true);
 
-            while (rs.next()) {
-                // Récupérer les données (A MODIFIER/COMPLETER)
-                String piste = rs.getString("piste");
 
-                // Ajouter les données à la série
-                
-                series.getData().add(new XYChart.Data<>(piste, environ));
-                barChart.getData().add(series);
-                anchorPaneResPistEnv.getChildren().add(barChart);
-                
-            }
+
+
+            
         } catch (NullPointerException e) {
             errorPiste.setText("Aucune piste sélectionnée.");
         }
     }
-    */
+
+    public void afficherTrafficJournalier(ActionEvent event) throws IOException {
+        System.out.println("Affichage du trafic journalier");
+        try {
+            String nomPiste = getNomPiste();
+            String heure = getHeureRech();
+            ResultSet res = Requetes.trafficJournalier(nomPiste, heure);
+            JFreeChart chart = BarChartExample.trafficJournalierGraph(res);
+            chart.setTitle("Trafic journalier " + nomPiste);
+            // affichage du graphique
+            ChartFrame frame = new ChartFrame("Trafic journalier " + nomPiste, chart);
+            frame.pack();
+            frame.setVisible(true);
+        } catch (NullPointerException e) {
+            errorPiste.setText("Aucune piste sélectionnée.");
+        }
+    }
 }
