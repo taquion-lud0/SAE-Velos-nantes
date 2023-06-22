@@ -5,32 +5,30 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.List;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 
-import java.time.LocalDate;
 import java.io.File;
-
 //
 
 public class Controller {
@@ -84,6 +82,11 @@ public class Controller {
     Label jourWeekend;
     @FXML
     Label saison;
+
+    @FXML
+    AnchorPane anchorPaneDragDrop;
+    @FXML
+    Button deleteDataButton;
     
 
     public Controller() {
@@ -327,8 +330,47 @@ public class Controller {
 
         // Affichage de la boîte de dialogue et récupération du fichier choisi
         File file = fileChooser.showSaveDialog(new Stage());
-        String dataPath = "data/data.csv"; //chemin du fichier à télécharger
-        File dataFile = new File(dataPath);
-        Files.copy(dataFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        if (file != null) {
+            String dataPath = "data/data.csv"; //chemin du fichier à télécharger
+            File dataFile = new File(dataPath);
+            Files.copy(dataFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
+
+    public void anchorPaneRootOnDragOver(DragEvent event) {
+        if (event.getDragboard().hasFiles()) {
+            event.acceptTransferModes(TransferMode.ANY);
+        }
+    }
+
+    
+    public void anchorPaneRootOnDragDropped(DragEvent event) {
+        if (event.getDragboard().hasFiles()) {
+            List<File> files = event.getDragboard().getFiles();
+            files.forEach((file -> System.out.println(file.getAbsolutePath())));
+            for (File file : files) {
+                if (file.getName().endsWith(".csv")) {
+                    String source = file.getAbsolutePath();
+                    String target = "data/newData.csv";
+                    try {
+                        Files.copy(Paths.get(source), Paths.get(target), StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } 
+        }
+    }
+
+    public void deleteNewData(MouseEvent event) throws IOException {
+        String target = "data/newData.csv";
+        File file = new File(target);
+        if (file.exists()) {
+            if (file.canWrite()) {
+                file.delete();
+            } else {
+                System.out.println("Permissions insuffisantes pour supprimer le fichier.");
+            }
+        }
     }
 }

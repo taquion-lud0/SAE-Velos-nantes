@@ -22,7 +22,6 @@ public class Main extends Application {
         primaryStage.setTitle("Page d'Accueil");
         primaryStage.setScene(scene);
         primaryStage.show();
-
    }
 
     public static void main(String[] args) {

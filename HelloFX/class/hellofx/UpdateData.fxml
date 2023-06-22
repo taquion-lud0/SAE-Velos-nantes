@@ -21,7 +21,7 @@
             <Font name="Carlito Bold" size="23.0" />
          </font>
       </Label>
-      <Label layoutX="153.0" layoutY="263.0" text="Glisser-Déposer la nouvelle base de données" textFill="#fcfafa" />
+      <Label layoutX="181.0" layoutY="260.0" text="Glisser-Déposer la nouvelle base de données" textFill="#fcfafa" />
       <StackPane layoutX="493.0" layoutY="294.0" prefHeight="65.0" prefWidth="53.0">
          <children>
             <ImageView fitHeight="68.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
@@ -29,16 +29,17 @@
                   <Image url="@../../images/trash.png" />
                </image>
             </ImageView>
+            <Button fx:id="deleteDataButton" mnemonicParsing="false" onMouseClicked="#deleteNewData" opacity="0.0" prefHeight="76.0" prefWidth="68.0" />
          </children>
       </StackPane>
-      <Label layoutX="472.0" layoutY="362.0" prefHeight="29.0" prefWidth="110.0" text="Supprimer la base actuelle" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Label layoutX="472.0" layoutY="362.0" prefHeight="29.0" prefWidth="126.0" text="Supprimer la base actuelle" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <AnchorPane layoutX="153.0" layoutY="113.0" prefHeight="129.0" prefWidth="294.0" style="-fx-background-color: lightblue;">
+      <AnchorPane fx:id="anchorPaneDragDrop" layoutX="153.0" layoutY="113.0" onDragDropped="#anchorPaneRootOnDragDropped" onDragOver="#anchorPaneRootOnDragOver" prefHeight="129.0" prefWidth="294.0" style="-fx-background-color: lightblue;">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5894cc" height="129.0" stroke="BLACK" strokeDashOffset="5.5" strokeLineCap="BUTT" strokeLineJoin="BEVEL" strokeMiterLimit="5.0" strokeType="OUTSIDE" width="294.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5894cc" height="129.0" onDragDropped="#anchorPaneRootOnDragDropped" onDragOver="#anchorPaneRootOnDragOver" stroke="BLACK" strokeDashOffset="5.5" strokeLineCap="BUTT" strokeLineJoin="BEVEL" strokeMiterLimit="5.0" strokeType="OUTSIDE" width="294.0" />
             <ImageView fitHeight="92.0" fitWidth="110.0" layoutX="93.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/dragndrop.png" />

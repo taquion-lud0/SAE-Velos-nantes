@@ -34,11 +34,6 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </LineChart>
-      <Label layoutX="300.0" layoutY="250.0" text="Veuillez indiquez l'échelle de temps (requis)" textFill="#fcfcfc">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
       <Pane layoutX="301.0" layoutY="270.0" prefHeight="94.0" prefWidth="222.0" />
    </children>
 </AnchorPane>
