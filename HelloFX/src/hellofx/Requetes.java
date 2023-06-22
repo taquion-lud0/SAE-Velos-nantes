@@ -14,9 +14,9 @@ import java.time.temporal.ChronoUnit;
 public class Requetes {
     private ArrayList<String> lesCompteurs = new ArrayList<String>(); 
     private ArrayList<String> lesHeures = new ArrayList<String>();
-    private final String URL = "jdbc:mysql://localhost:3306/velo_bdd";
-    private final String USER = "root";
-    private final String PASSWORD = "123456";
+    private static final String URL = "jdbc:mysql://localhost:3306/velo_bdd";
+    private static final String USER = "root";
+    private static final String PASSWORD = "azerty123";
 
     public static void main(String[] args) {
         //Exemple de requete
@@ -70,11 +70,7 @@ public class Requetes {
         ResultSet res = null;
 
         try {
-            String url = "jdbc:mysql://localhost:3306/velo_bdd";
-            String user = "root";
-            String password = "123456";
-
-            Connection connection = DriverManager.getConnection(url, user, password);
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
             String query = "SELECT SUM("+heure+") AS nbVelos, nomCompteur, sens FROM Comptage, Compteur WHERE Comptage.leCompteur = Compteur.idCompteur AND dateComptage = '"+date+"' Group BY nomCompteur, sens;";
 
             Statement statement = connection.createStatement();
@@ -96,11 +92,8 @@ public class Requetes {
         }
 
         try {
-            String url = "jdbc:mysql://localhost:3306/velo_bdd";
-            String user = "root";
-            String password = "123456";
 
-            Connection connection = DriverManager.getConnection(url, user, password);
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
             String query = "SELECT DISTINCT(CONCAT(c2.nomCompteur, c2.sens)) AS compteursProches, ACOS(SIN(RADIANS(c1.COORD_X)) * SIN(RADIANS(c2.COORD_X)) + COS(RADIANS(c1.COORD_X)) * COS(RADIANS(c2.COORD_X)) * COS(RADIANS(c2.COORD_Y - c1.COORD_Y))) * 6371  AS dist_km FROM Compteur c1, Compteur c2 WHERE c1.nomCompteur = '"+ nomPiste+"' AND c1.sens = '"+sens+"' AND c1.nomCompteur != c2.nomCompteur ORDER BY dist_km LIMIT 5;";
 
             Statement statement = connection.createStatement();
@@ -123,11 +116,8 @@ public class Requetes {
         nomPisteA = nomPisteA + " ";
 
         try{
-            String url = "jdbc:mysql://localhost:3306/velo_bdd";
-            String user = "root";
-            String password = "azerty123";
 
-            Connection connection = DriverManager.getConnection(url, user, password);
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
             String query = "SELECT CONCAT(c2.nomCompteur, c2.sens) AS compteur_Intermédiaire, ACOS(SIN(RADIANS(c1.COORD_X)) * SIN(RADIANS(c2.COORD_X)) + COS(RADIANS(c1.COORD_X)) * COS(RADIANS(c2.COORD_X)) * COS(RADIANS(c2.COORD_Y - c1.COORD_Y))) * 6371  AS dist_Départ_Chemin FROM Compteur c1, Compteur c2, Compteur c3  WHERE c1.nomCompteur != c2.nomCompteur AND c2.nomCompteur  != c3.nomCompteur AND c1.nomCompteur != c3.nomCompteur AND UPPER(c1.nomCompteur) = '"+nomPisteD+"' AND UPPER(c1.sens) = '"+ sensD +"' AND UPPER(c3.nomCompteur) = '"+nomPisteA+"'  AND UPPER(c3.sens) = '"+sensA+"' AND c1.COORD_X <= c2.COORD_X  AND c2.COORD_X <= c3.COORD_X AND c1.COORD_Y <= c2.COORD_Y AND c2.COORD_Y <= c3.COORD_Y ORDER BY dist_Départ_Chemin;";
             
             Statement statement = connection.createStatement();
@@ -164,10 +154,7 @@ public class Requetes {
         if(affluence == 1){
             affluenceRes = "DESC";
         }
-        String url = "jdbc:mysql://localhost:3306/velo_bdd";
-        String user = "root";
-        String password = "123456";
-
+     
         if(affluence == 0){
             if(hD.equals("h00") && hA.equals("h23")){
 

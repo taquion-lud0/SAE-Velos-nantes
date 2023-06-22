@@ -15,10 +15,17 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 
-
+/**
+ * Main class de l'application JavaFX
+ */
 public class Main extends Application {
 
     @Override
+    /**
+     * Méthode start de l'application JavaFX
+     * @param primaryStage - Stage de l'application
+     * @throws Exception - Exception de l'application
+     */
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
         Scene scene = new Scene(root);
