@@ -6,12 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import org.jfree.chart.JFreeChart;
-
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import org.jfree.chart.ChartFrame;
 
 
 public class Requetes {
@@ -19,7 +16,7 @@ public class Requetes {
     private ArrayList<String> lesHeures = new ArrayList<String>();
     static final String URL = "jdbc:mysql://localhost:3306/velo_bdd";
     static final String USER = "root";
-    static final String PASSWORD = "azerty123";
+    static final String PASSWORD = "123456";
 
     public static void main(String[] args) {
         //Exemple de requete
